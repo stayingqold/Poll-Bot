@@ -2,6 +2,8 @@
 
 A Discord bot that lets you create strawpolls and reaction polls
 
+Add Poll Bot to your server here: https://discordapp.com/oauth2/authorize?client_id=298673420181438465&scope=bot&permissions=0
+
 ## Example Uses
 <p>
 <img src="http://i.imgur.com/d5sRKPv.gif" style="width:auto;">
