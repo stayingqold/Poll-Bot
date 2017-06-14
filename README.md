@@ -9,7 +9,7 @@ Add Poll Bot to your server here: https://discordapp.com/oauth2/authorize?client
 <img src="http://i.imgur.com/d5sRKPv.gif" style="width:auto;">
 </p>
 <p>
-<img src="http://imgur.com/ZwcuzEJ.gif" style="width:auto;">
+<img src="http://i.imgur.com/ZwcuzEJ.gif" style="width:auto;">
 </p>
 
 ## How to use Poll Bot
