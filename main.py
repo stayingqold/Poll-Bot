@@ -1,19 +1,24 @@
+#!/usr/bin/env python3
+
 import discord
 from discord.ext import commands
 import strawpoll
-import asyncio
+import inflect
 
 description = '''A bot that creates polls or strawpolls using discord'''
 
 bot = commands.Bot(command_prefix='+')
 
-#Log in
+
+# Log in
 @bot.event
 async def on_ready():
+    print('----------------------')
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
-    print('--------')
+    print('----------------------')
+
 
 #Reaction Poll
 @bot.command(name="poll", pass_context=True)
@@ -22,124 +27,52 @@ async def poll(ctx):
         await bot.add_reaction(ctx.message, '👎')
         await bot.add_reaction(ctx.message, '🤷')
 
-#StrawPoll with 2 options
-@bot.command(name="strawpoll2", pass_context=True)
-async def poll(ctx):
+
+# Strawpoll
+@bot.event
+async def on_message(message):
+    command_name = bot.command_prefix + 'strawpoll'
+    
+    if not message.content.startswith(command_name):
+        return
+
+    # get the stuff between 'strawpoll' and whitespace
+    try:
+        num_options = int(message.content.split()[0].replace(command_name, ''))
+    except ValueError:
+        await bot.send_message(message.channel, 'Please use only an integer number of options.')
+        return
+    
+    if num_options not in range(2, 31):
+        await bot.send_message(message.channel, 'Your poll must have between 2 and 30 options.')
+        return
+    
+    
     api = strawpoll.API()
-    await bot.say('What would you like the title to be?')
-    title = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the first choice to be?')
-    choice1 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the second choice to be?')
-    choice2 = await bot.wait_for_message(author=ctx.message.author)
-    p2 = strawpoll.Poll(title.content, [choice1.content, choice2.content])
-    print(p2.id)
-    print(p2.url)
+    await bot.send_message(message.channel, 'What would you like the title to be?')
+    title = await bot.wait_for_message(author=message.author)
+    
+    options = await ask_for_options(num_options, message)
+    
+    poll = strawpoll.Poll(title.content, options)
+    
+    poll = await api.submit_poll(poll)
+    await bot.send_message(message.channel, poll.url)
 
-    p2 = await api.submit_poll(p2)
-    print(p2.id)
-    print(p2.url)
 
-    await bot.say(p2.url)
+async def ask_for_options(num_options, message):
+    p = inflect.engine()
+    options = []
+    
+    for option_no in range(1, num_options + 1):
+        await bot.send_message(message.channel, 'What would you like the {} choice to be?'.format(p.ordinal(option_no)))
+        reply = await bot.wait_for_message(author=message.author)
+        options.append(reply.content)
+    
+    return options
 
-#StrawPoll with 3 options
-@bot.command(name="strawpoll3", pass_context=True)
-async def poll(ctx):
-    api = strawpoll.API()
-    await bot.say('What would you like the title to be?')
-    title = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the first choice to be?')
-    choice1 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the second choice to be?')
-    choice2 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the third choice to be?')
-    choice3 = await bot.wait_for_message(author=ctx.message.author)
-    p2 = strawpoll.Poll(title.content, [choice1.content, choice2.content, choice3.content])
-    print(p2.id)
-    print(p2.url)
 
-    p2 = await api.submit_poll(p2)
-    print(p2.id)
-    print(p2.url)
 
-    await bot.say(p2.url)
-
-#StrawPoll with 4 options
-@bot.command(name="strawpoll4", pass_context=True)
-async def poll(ctx):
-    api = strawpoll.API()
-    await bot.say('What would you like the title to be?')
-    title = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the first choice to be?')
-    choice1 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the second choice to be?')
-    choice2 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the third choice to be?')
-    choice3 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the fourth choice to be?')
-    choice4 = await bot.wait_for_message(author=ctx.message.author)
-    p2 = strawpoll.Poll(title.content, [choice1.content, choice2.content, choice3.content, choice4.content])
-    print(p2.id)
-    print(p2.url)
-
-    p2 = await api.submit_poll(p2)
-    print(p2.id)
-    print(p2.url)
-
-    await bot.say(p2.url)
-
-#StrawPoll with 5 options
-@bot.command(name="strawpoll5", pass_context=True)
-async def poll(ctx):
-    api = strawpoll.API()
-    await bot.say('What would you like the title to be?')
-    title = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the first choice to be?')
-    choice1 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the second choice to be?')
-    choice2 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the third choice to be?')
-    choice3 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the fourth choice to be?')
-    choice4 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the fifth choice to be?')
-    choice5 = await bot.wait_for_message(author=ctx.message.author)
-    p2 = strawpoll.Poll(title.content, [choice1.content, choice2.content, choice3.content, choice4.content, choice5.content])
-    print(p2.id)
-    print(p2.url)
-
-    p2 = await api.submit_poll(p2)
-    print(p2.id)
-    print(p2.url)
-
-    await bot.say(p2.url)
-
-#StrawPoll with 6 options
-@bot.command(name="strawpoll6", pass_context=True)
-async def poll(ctx):
-    api = strawpoll.API()
-    await bot.say('What would you like the title to be?')
-    title = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the first choice to be?')
-    choice1 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the second choice to be?')
-    choice2 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the third choice to be?')
-    choice3 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the fourth choice to be?')
-    choice4 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the fifth choice to be?')
-    choice5 = await bot.wait_for_message(author=ctx.message.author)
-    await bot.say('What would you like the sixth choice to be?')
-    choice6 = await bot.wait_for_message(author=ctx.message.author)
-    p2 = strawpoll.Poll(title.content, [choice1.content, choice2.content, choice3.content, choice4.content, choice5.content, choice6.content])
-    print(p2.id)
-    print(p2.url)
-
-    p2 = await api.submit_poll(p2)
-    print(p2.id)
-    print(p2.url)
-
-    await bot.say(p2.url)
-
-bot.run('token')
+if __name__ == '__main__':
+    import sys
+    bot.run(sys.argv[1])
