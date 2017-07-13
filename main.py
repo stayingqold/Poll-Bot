@@ -23,9 +23,9 @@ async def on_ready():
 #Reaction Poll
 @bot.command(name="poll", pass_context=True)
 async def poll(ctx):
-        await bot.add_reaction(ctx.message, '👍')
-        await bot.add_reaction(ctx.message, '👎')
-        await bot.add_reaction(ctx.message, '🤷')
+    await bot.add_reaction(ctx.message, '👍')
+    await bot.add_reaction(ctx.message, '👎')
+    await bot.add_reaction(ctx.message, '🤷')
 
 
 # Strawpoll
@@ -58,6 +58,8 @@ async def on_message(message):
     
     poll = await api.submit_poll(poll)
     await bot.send_message(message.channel, poll.url)
+    
+    await bot.process_commands(message)
 
 
 async def ask_for_options(num_options, message):
