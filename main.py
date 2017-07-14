@@ -33,12 +33,16 @@ async def poll(ctx):
 async def on_message(message):
     command_name = bot.command_prefix + 'strawpoll'
     
-    if not message.content.startswith(command_name):
-        return
+    if message.content.startswith(command_name):
+        await process_strawpoll(message.content.split(command_name)[1], message)
+    else:
+        await bot.process_commands(message)
 
+
+async def process_strawpoll(num_options: str, message):
     # get the stuff between 'strawpoll' and whitespace
     try:
-        num_options = int(message.content.split()[0].replace(command_name, ''))
+        num_options = int(num_options)
     except ValueError:
         await bot.send_message(message.channel, 'Please use only an integer number of options.')
         return
@@ -46,8 +50,7 @@ async def on_message(message):
     if num_options not in range(2, 31):
         await bot.send_message(message.channel, 'Your poll must have between 2 and 30 options.')
         return
-    
-    
+
     api = strawpoll.API()
     await bot.send_message(message.channel, 'What would you like the title to be?')
     title = await bot.wait_for_message(author=message.author)
@@ -55,11 +58,10 @@ async def on_message(message):
     options = await ask_for_options(num_options, message)
     
     poll = strawpoll.Poll(title.content, options)
-    
     poll = await api.submit_poll(poll)
-    await bot.send_message(message.channel, poll.url)
     
-    await bot.process_commands(message)
+    await bot.send_message(message.channel, poll.url)
+
 
 
 async def ask_for_options(num_options, message):
