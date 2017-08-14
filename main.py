@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import discord
 from discord.ext import commands
+=======
+import discord
+from discord.ext import commands
+>>>>>>> f2e812f5afe57605ac9de6198a5c08a71c9a8f91
 import strawpoll
 import asyncio
 import time
