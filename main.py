@@ -1,5 +1,4 @@
 import discord
-<<<<<<< HEAD
 from discord.ext import commands
 import strawpoll
 import asyncio
