@@ -1,12 +1,5 @@
-<<<<<<< HEAD
 import discord
 from discord.ext import commands
-=======
-import discord
-from discord.ext import commands
-import discord
-from discord.ext import commands
->>>>>>> f7436ccafd6810bc08e8221179770bd8470d8469
 import strawpoll
 import asyncio
 import inflect
