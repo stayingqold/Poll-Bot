@@ -10,7 +10,7 @@ import collections
 
 description = '''A bot that creates polls or strawpolls using discord'''
 
-bot = commands.AutoShardedBot(command_prefix='+')
+bot = commands.AutoShardedBot(command_prefix='+/')
 
 #Removes default help command
 
@@ -20,7 +20,7 @@ c = collections.Counter()
 #Log in
 @bot.event
 async def on_ready():
-    await bot.change_presence(game=discord.Game(name='+help', type=0))
+    await bot.change_presence(game=discord.Game(name='+/help', type=0))
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
@@ -45,8 +45,8 @@ async def start(ctx):
     bot.app = await bot.application_info()
     owner = bot.app.owner
     if ctx.message.author == owner:
-        pollUses = "'+poll' uses this week: " + str(c['pollUses'])
-        supportUses = "'+help' uses this week: " + str(c['supportUses'])
+        pollUses = "'+/poll' uses this week: " + str(c['pollUses'])
+        supportUses = "'+/help' uses this week: " + str(c['supportUses'])
         await owner.send(pollUses)
         await owner.send(supportUses)
         c.clear()
@@ -67,7 +67,7 @@ async def srvrs(ctx):
     await owner.send(users)
     await owner.send(uniques)
     await owner.send(sender)
-    await owner.send('type +!more for deeper analytics')
+    await owner.send('type +/!more for deeper analytics')
     r = requests.post("https://bots.discord.pw/api/bots/{}/stats".format(bot.user.id), json={"server_count":len(bot.guilds)}, headers={"Authorization":config.pwtoken})
     print('wow it actually worked lmao')
 
@@ -76,22 +76,22 @@ async def srvrs(ctx):
 async def srvrs(ctx):
     bot.app = await bot.application_info()
     owner = bot.app.owner
-    pollUses = "'+poll' uses this week: " + str(c['pollUses'])
-    supportUses = "'+donate' uses this week: " + str(c['supportUses'])
+    pollUses = "'+/poll' uses this week: " + str(c['pollUses'])
+    supportUses = "'+/donate' uses this week: " + str(c['supportUses'])
     await owner.send(pollUses)
     await owner.send(supportUses)
 
 #"Legacy" help command
 @bot.command(name='pollbothelp', pass_context=True)
 async def hlp(ctx):
-    emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll*#*', where # is the number of choices you want your strawpoll to have (between 2-30) and answer Poll Bot's questions.\n\n**Other Commands**\n+updates, +twitter, +pollbotinfo, +invite, +support, +server, +contact\n\nStill Have Questions?**\nJoin our official discord server: <http://tinyurl.com/averagelyserver>" + "\n" + "Ask us on twitter: <https://twitter.com/averagely>\n\n_**Don't forget you can use all of Poll Bot's commands inside this direct message.**_", colour=0x83bae3)
+    emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+/poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+/strawpoll*#*', where # is the number of choices you want your strawpoll to have (between 2-30) and answer Poll Bot's questions.\n\n**Other Commands**\n+/updates, +/twitter, +/pollbotinfo, +/invite, +/support, +/server, +/contact\n\nStill Have Questions?**\nJoin our official discord server: <http://tinyurl.com/averagelyserver>" + "\n" + "Ask us on twitter: <https://twitter.com/averagely>\n\n_**Don't forget you can use all of Poll Bot's commands inside this direct message.**_", colour=0x83bae3)
     await ctx.author.send(embed=emb1)
     await ctx.message.channel.send('Check your DMs!')
 
 #Help Command
 @bot.command(name='help', pass_context=True)
 async def hlp(ctx):
-    emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll*#*', where # is the number of choices you want your strawpoll to have (between 2-30) and answer Poll Bot's questions.\n\n**Other Commands**\n+updates, +twitter, +pollbotinfo, +invite, +donate, +server\n\n**Still Have Questions?**\nJoin our official discord server: <http://tinyurl.com/averagelyserver>" + "\n" + "Ask us on twitter: <https://twitter.com/averagely>\n\n_**Don't forget you can use all of Poll Bot's commands inside this direct message.**_", colour=0x83bae3)
+    emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+/poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+/strawpoll*#*', where # is the number of choices you want your strawpoll to have (between 2-30) and answer Poll Bot's questions.\n\n**Other Commands**\n+/updates, +/twitter, +/pollbotinfo, +/invite, +/donate, +/server\n\n**Still Have Questions?**\nJoin our official discord server: <http://tinyurl.com/averagelyserver>" + "\n" + "Ask us on twitter: <https://twitter.com/averagely>\n\n_**Don't forget you can use all of Poll Bot's commands inside this direct message.**_", colour=0x83bae3)
     await ctx.author.send(embed=emb1)
     await ctx.message.channel.send('Check your DMs!')
 
