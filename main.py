@@ -8,25 +8,20 @@ import json
 import requests
 import config
 import collections
-print('01')
 
-logging.basicConfig(level=logging.INFO)
-
-description = '''A bot that creates polls or strawpolls using discord'''
+#prints out some useful info
+#logging.basicConfig(level=logging.INFO)
 
 bot = commands.AutoShardedBot(command_prefix='+/')
-print('02')
 
 #Removes default help command
 bot.remove_command("help")
 c = collections.Counter()
-print('03')
+
 #Log in
 @bot.event
 async def on_ready():
-    print('04')
     await bot.change_presence(game=discord.Game(name='+/help', type=0))
-    print('05')
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
@@ -50,17 +45,17 @@ async def on_ready():
 
 @bot.event
 async def on_guild_join(guild):
+    print("New guild!")
     r = requests.post("https://discordbots.org/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.orgtoken})
-    print("posted")
     r = requests.post("https://bots.discord.pw/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.pwtoken})
-    print('wow it actually worked lmao')
+    print("Stats updated.")
 
 @bot.event
 async def on_guild_remove(guild):
+    print("Guild left :(")
     r = requests.post("https://discordbots.org/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.orgtoken})
-    print("posted")
     r = requests.post("https://bots.discord.pw/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.pwtoken})
-    print('wow it actually worked lmao')
+    print("Stats updated.")
 
 @bot.command(name="!upvoters", pass_context=True)
 async def upv(ctx):
@@ -110,7 +105,7 @@ async def hlp(ctx):
 #For advertisements
 @bot.command(name='donate', pass_context=True)
 async def hlp(ctx):
-    emb1 = discord.Embed(title='Support', description="*this is how we pay for Poll Bot's hosting!*\n\n**Support us on Patreon for some sweet rewards! https://www.patreon.com/averagely**\nLove Poll Bot but don't want to donate?  Upvote it here: https://discordbots.org/bot/298673420181438465 (and get the upvoter role on the Poll Bot discord server: https://discord.gg/FhT6nUn)", color=0x83bae3)
+    emb1 = discord.Embed(title='Support', description="Thanks for considering donating to Poll Bot! By donating, you would help pay for Poll Bot's monthly hosting bill.\n-\nYou can donate by sendng money here: https://cash.me/$finnreid19\n-\nIf you have any suggestions for rewards, join the Poll Bot discord server (https://discord.gg/FhT6nUn)\n-\nLove Poll Bot but don't want to donate?  Upvote it here: https://discordbots.org/bot/298673420181438465 (and get the upvoter role on the Poll Bot discord server: https://discord.gg/FhT6nUn)", color=0x83bae3)
     await ctx.message.channel.send(embed=emb1)
     c['supportUses'] += 1
 
@@ -212,5 +207,4 @@ async def ask_for_options(num_options, message):
     return options
 
 if __name__ == '__main__':
-    print('08')
     bot.run(config.discordToken)
