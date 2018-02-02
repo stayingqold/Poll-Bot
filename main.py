@@ -66,19 +66,16 @@ async def on_guild_remove(guild):
     await send_stats()
     print("Stats updated.")
 
-@bot.command(name="!upvoters", pass_context=True)
-async def upv(ctx):
-    chnl = bot.get_channel(396182828422922241)
+@bot.command(name='!upvoters')
+async def upvoters(ctx):
+    channel = bot.get_channel(396182828422922241)
     print(ctx.message.channel.id)
-    await chnl.send("worked")
-    r = requests.get("https://discordbots.org/api/bots/{}".format(bot.user.id), headers={"Authorization": config.orgtoken})
-    numUps = r.json()['points']
-    r = requests.get("https://discordbots.org/api/bots/{}/votes".format(bot.user.id), headers={"Authorization": config.orgtoken})
-    upvoter = r.json()
-    a = "upvoters: "
-    for x in range(0, numUps):
-        a += upvoter[x]['username'] + ", "
-    await chnl.send(a)
+    await channel.send("worked")
+    headers = {'Authorization': config.orgtoken}
+    async with bot.http_session.get('https://discordbots.org/api/bots/%s/votes' % bot.user.id, headers=headers) as resp:
+        upvoters = await resp.json()
+    upvoter_names = [upvoter['username'] for upvoter in upvoters]
+    await channel.send('upvoters: ' + ', '.join(upvoter_names))
 
 #Sends a message to the bot owner saying how many servers and people are using Poll Bot
 @bot.command(name='!stats', pass_context=True)
