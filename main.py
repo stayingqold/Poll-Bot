@@ -29,7 +29,7 @@ async def send_stats():
     payload = {'server_count': len(bot.guilds)}
     for url, token in tokens:
         headers = {'Authorization': token}
-        await bot.session.post(url % bot.user.id, json=payload, headers=headers)
+        await bot.http_session.post(url % bot.user.id, json=payload, headers=headers)
 
 #Log in
 @bot.event
