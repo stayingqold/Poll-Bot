@@ -1,13 +1,16 @@
+import asyncio
+from collections import Counter
+import json
 import logging
+
+import aiohttp
 import discord
 from discord.ext import commands
-import strawpoll
-import asyncio
 import inflect
-import json
-import requests
+import strawpoll
+
 import config
-import collections
+
 
 #prints out some useful info
 #logging.basicConfig(level=logging.INFO)
@@ -16,12 +19,23 @@ bot = commands.AutoShardedBot(command_prefix='+/')
 
 #Removes default help command
 bot.remove_command("help")
-c = collections.Counter()
+c = Counter()
+
+async def send_stats():
+    tokens = (
+        ('https://discordbots.org/api/bots/%s/stats', config.orgtoken),
+        ('https://bots.discord.pw/api/bots/%s/stats', config.pwtoken),
+    )
+    payload = {'server_count': len(bot.guilds)}
+    for url, token in tokens:
+        headers = {'Authorization': token}
+        await bot.http_session.post(url % bot.user.id, json=payload, headers=headers)
 
 #Log in
 @bot.event
 async def on_ready():
     await bot.change_presence(game=discord.Game(name='+/help', type=0))
+    bot.http_session = aiohttp.ClientSession()
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
@@ -36,25 +50,20 @@ async def on_ready():
         await owner.send(users)
         await owner.send(uniques)
         await owner.send('type +/!more for deeper analytics')
-        r = requests.post("https://discordbots.org/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.orgtoken})
-        print("posted")
-        r = requests.post("https://bots.discord.pw/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.pwtoken})
-        print('wow it actually worked lmao')
+        await send_stats()
         print(owner)
         await asyncio.sleep(86400)
 
 @bot.event
 async def on_guild_join(guild):
     print("New guild!")
-    r = requests.post("https://discordbots.org/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.orgtoken})
-    r = requests.post("https://bots.discord.pw/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.pwtoken})
+    await send_stats()
     print("Stats updated.")
 
 @bot.event
 async def on_guild_remove(guild):
     print("Guild left :(")
-    r = requests.post("https://discordbots.org/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.orgtoken})
-    r = requests.post("https://bots.discord.pw/api/bots/{}/stats".format(bot.user.id), json={"server_count": len(bot.guilds)}, headers={"Authorization": config.pwtoken})
+    await send_stats()
     print("Stats updated.")
 
 @bot.command(name="!upvoters", pass_context=True)
