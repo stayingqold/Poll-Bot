@@ -8,7 +8,7 @@ from discord.ext import commands
 import strawpoll
 import config
 
-
+#logging
 logging.basicConfig(level=logging.INFO)
 
 
