@@ -2,24 +2,19 @@ import asyncio
 from collections import Counter
 import json
 import logging
-
 import aiohttp
 import discord
 from discord.ext import commands
-import inflect
 import strawpoll
-
 import config
 
-
 #prints out some useful info
-#logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
-bot = commands.AutoShardedBot(command_prefix='+/')
+bot = commands.AutoShardedBot(command_prefix='+')
 
 #Removes default help command
 bot.remove_command("help")
-c = Counter()
 
 async def send_stats():
     tokens = (
@@ -34,7 +29,7 @@ async def send_stats():
 #Log in
 @bot.event
 async def on_ready():
-    await bot.change_presence(game=discord.Game(name='+/help', type=0))
+    await bot.change_presence(game=discord.Game(name='+help', type=0))
     bot.http_session = aiohttp.ClientSession()
     print('Logged in as')
     print(bot.user.name)
@@ -49,7 +44,7 @@ async def on_ready():
         await owner.send(guilds)
         await owner.send(users)
         await owner.send(uniques)
-        await owner.send('type +/!more for deeper analytics')
+        await owner.send('type +!more for deeper analytics')
         await send_stats()
         print(owner)
         await asyncio.sleep(86400)
@@ -77,7 +72,7 @@ async def upvoters(ctx):
     upvoter_names = [upvoter['username'] for upvoter in upvoters]
     await channel.send('upvoters: ' + ', '.join(upvoter_names))
 
-#Sends a message to the bot owner saying how many servers and people are using Poll Bot
+#Sends analytics to a channel in the Poll Bot server
 @bot.command(name='!stats', pass_context=True)
 async def srvrs(ctx):
     chnl = bot.get_channel(396183943910522880)
@@ -90,42 +85,20 @@ async def srvrs(ctx):
     await chnl.send(users)
     await chnl.send(uniques)
     await chnl.send("server members: " + str(srvr.member_count))
-    await chnl.send('type +/!mas for deeper analytics')
-
-#more anayltics
-@bot.command(name='!mas', pass_context=True)
-async def srvrs(ctx):
-    chnl = bot.get_channel(396183943910522880)
-    pollUses = "'+/poll' uses this week: " + str(c['pollUses'])
-    supportUses = "'+/donate' uses this week: " + str(c['supportUses'])
-    await chnl.send(pollUses)
-    await chnl.send(supportUses)
+    await chnl.send('type +!mas for deeper analytics')
 
 #Help Command
 @bot.command(name='help', pass_context=True)
 async def hlp(ctx):
-    emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+/poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+/strawpoll #', where # is the number of choices you want your strawpoll to have (between 2-30) and answer Poll Bot's questions.\n\n**Other Commands**\n+/updates, +/twitter, +/invite, +/donate\n\n**Still Have Questions?**\nJoin our official discord server: <https://discord.gg/FhT6nUn>" + "\n" + "Ask us on twitter: <https://twitter.com/DiscordPollBot>\n\n_**Don't forget you can use all of Poll Bot's commands inside this direct message.**_", colour=0x83bae3)
+    emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]', with up to 30 options.\n\n**Other Commands**\n+updates, +invite, +donate\n\n**Still Have Questions?**\nJoin our official discord server: <https://discord.gg/FhT6nUn>" + "\n" + "Ask us on twitter: <https://twitter.com/DiscordPollBot>\n\n_**Don't forget you can use all of Poll Bot's commands inside this direct message.**_", colour=0x83bae3)
     await ctx.author.send(embed=emb1)
     await ctx.message.channel.send('Check your DMs!')
 
-#For advertisements
+#To pay for hosting
 @bot.command(name='donate', pass_context=True)
 async def hlp(ctx):
-    emb1 = discord.Embed(title='Support', description="Thanks for considering donating to Poll Bot! By donating, you would help pay for Poll Bot's monthly hosting bill.\n-\nYou can donate by sendng money here: https://cash.me/$finnreid19\n-\nIf you have any suggestions for rewards, join the Poll Bot discord server (https://discord.gg/FhT6nUn)\n-\nLove Poll Bot but don't want to donate?  Upvote it here: https://discordbots.org/bot/298673420181438465 (and get the upvoter role on the Poll Bot discord server: https://discord.gg/FhT6nUn)", color=0x83bae3)
+    emb1 = discord.Embed(title='Support', description="We currently don't need donations, but it would be nice if you could upvote Poll Bot here: https://discordbots.org/bot/298673420181438465 (and get the upvoter role on the Poll Bot discord server: https://discord.gg/FhT6nUn)", color=0x83bae3)
     await ctx.message.channel.send(embed=emb1)
-    c['supportUses'] += 1
-
-#Hidden command #1 - oceanman
-@bot.command(name="oceanman", pass_context=True)
-async def scrt(ctx):
-    await ctx.message.channel.send("OCEAN MAN 🌊 😍 Take me by the hand ✋ lead me to the land that you understand 🙌 🌊 OCEAN MAN 🌊 😍 The voyage 🚲 to the corner of the 🌎 globe is a real trip 👌 🌊 OCEAN MAN 🌊 😍 The crust of a tan man 👳 imbibed by the sand 👍 Soaking up the 💦 thirst of the land 💯")
-
-#Hidden command #2 - Clap This (taken from my other discord bot: https://github.com/finnreid19/Clap-Bot)
-@bot.command(name='clapthis', pass_context=True)
-async def scrt(ctx):
-    content = ctx.message.content[10:] + ' '
-    clapped = content.replace(" ", "👏")
-    await ctx.message.channel.send(clapped)
 
 #Invite link (if people want to add Poll Bot to their own server)
 @bot.command(name='invite', pass_context=True)
@@ -133,21 +106,11 @@ async def info(ctx):
     emb1 = discord.Embed(description='Invite Poll Bot to your server: <https://discordapp.com/oauth2/authorize?client_id=298673420181438465&scope=bot&permissions=0>', colour=0x83bae3)
     await ctx.message.channel.send(embed=emb1)
 
-#Poll Bot's twitter info
-@bot.command(name='twitter', pass_context=True)
-async def info(ctx):
-    emb1 = discord.Embed(description='You can follow Poll Bot on twitter here: <https://twitter.com/DiscordPollBot>', colour=0x83bae3)
-    await ctx.message.channel.send(embed=emb1)
-
-@bot.command(name='strawpoll', pass_context=True)
-async def hlp(ctx):
-    emb1 = discord.Embed(description="Please add a number the # of choices you would like to have at the end of +strawpoll. eg. +strawpoll2", colour=0x83bae3)
-    await ctx.message.channel.send(embed=emb1)
-
 #Where the latest updates get put
 @bot.command(name='updates', pass_context=True)
 async def updts(ctx):
-    emb1 = discord.Embed(description="**Please join the Poll Bot server and see #change_log to see the latest updates! <https://discord.gg/FhT6nUn>**\n\n_**Don't forget you can use all of Poll Bot's features within direct messages. Just open a direct message with Poll Bot and use it like you would normally.**_")
+    emb1 = discord.Embed(description="**Please join the Poll Bot server and see #announcements to see the latest updates! <https://discord.gg/FhT6nUn>**\n\n_**Don't forget you can use all of Poll Bot's features within direct messages. Just open a direct message with Poll Bot and use it like you would normally.**_")
+
     await ctx.message.channel.send(embed=emb1)
 
 #Reaction Poll
@@ -156,7 +119,6 @@ async def poll(ctx):
     await ctx.message.add_reaction('👍')
     await ctx.message.add_reaction('👎')
     await ctx.message.add_reaction('🤷')
-    c['pollUses'] += 1
 
 #Reaction Poll with 2 options
 @bot.command(name="poll2", pass_context=True)
@@ -168,49 +130,53 @@ async def poll(ctx):
 @bot.event
 async def on_message(message):
     command_name = bot.command_prefix + 'strawpoll'
-
+    messageContent = message.content
     if message.content.startswith(command_name):
-        await process_strawpoll(message.content.split(command_name)[1], message)
+        pollUrl = await createStrawpoll(messageContent)
+        await message.channel.send(pollUrl)
     else:
         await bot.process_commands(message)
 
-async def process_strawpoll(num_options: str, message):
-    try:
-        num_options = int(num_options)
-    except ValueError:
-        await message.channel.send('Please use only an integer number of options.')
-        return
+async def createStrawpoll(message):
+    #gets the title of the poll
+    first = message.find("{") + 1
+    second = message.find("}")
+    title = message[first:second]
 
-    if num_options not in range(2, 31):
-        await message.channel.send('Your poll must have between 2 and 30 options.')
-        return
+    #gets the # of options and assigns them to an array
+    newMessage = message[second:]
+    loopTime = 0
 
+    option = []
+    for options in message:
+        #get from } [option 1]
+        #if newThis == -1:
+        stillOptions = newMessage.find("[")
+        if stillOptions != -1:
+            if loopTime == 0:
+                first = newMessage.find("[") + 1
+
+                second = newMessage.find("]")
+                second1 = second + 1
+                option.append(newMessage[first:second])
+
+                loopTime+=1
+            else:
+                newMessage = newMessage[second1:]
+                first = newMessage.find("[") + 1
+                second = newMessage.find("]")
+                second1 = second + 1
+                option.append(newMessage[first:second])
+                loopTime+=1
     api = strawpoll.API()
-    await message.channel.send('What would you like the title to be?')
-    def pred(m):
-        return m.author == message.author and m.channel == message.channel
-    title = await bot.wait_for('message', check=pred)
+    try:
+        poll = strawpoll.Poll(title, option[:len(option)-1])
+        pollUrl = await api.submit_poll(poll)
+        print(pollUrl.url)
+        return pollUrl.url
+    except strawpoll.errors.HTTPException:
+        return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
 
-    options = await ask_for_options(num_options, message)
-
-    poll = strawpoll.Poll(title.content, options)
-    poll = await api.submit_poll(poll)
-
-    await message.channel.send(poll.url)
-
-
-async def ask_for_options(num_options, message):
-    p = inflect.engine()
-    options = []
-
-    for option_no in range(1, num_options + 1):
-        await message.channel.send('What would you like the {} choice to be?'.format(p.ordinal(option_no)))
-        def pred(m):
-            return m.author == message.author and m.channel == message.channel
-        reply = await bot.wait_for('message', check=pred)
-        options.append(reply.content)
-
-    return options
 
 if __name__ == '__main__':
     bot.run(config.discordToken)
