@@ -8,10 +8,10 @@ from discord.ext import commands
 import strawpoll
 import config
 
-#logs
+
 logging.basicConfig(level=logging.INFO)
 
-#set prefix
+
 bot = commands.AutoShardedBot(command_prefix='+')
 
 #Removes default help command
