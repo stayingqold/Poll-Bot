@@ -91,14 +91,14 @@ async def srvrs(ctx):
 #Help Command
 @bot.command(name='help', pass_context=True)
 async def hlp(ctx):
-    emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]', with up to 30 options.\n\n**Other Commands**\n+updates, +invite, +donate\n\n**Still Have Questions?**\nJoin our official discord server: <https://discord.gg/FhT6nUn>" + "\n" + "Ask us on twitter: <https://twitter.com/DiscordPollBot>\n\n_**Don't forget you can use all of Poll Bot's commands inside this direct message.**_", colour=0x83bae3)
+    emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]', with up to 30 options.\n\n**Other Commands**\n+updates, +invite, +donate\n\n**Still Have Questions?**\nJoin our official discord server: <https://discord.gg/FhT6nUn>" + "\n" + "Ask us on twitter: <https://twitter.com/DiscordPollBot>", colour=0x83bae3)
     await ctx.author.send(embed=emb1)
     await ctx.message.channel.send('Check your DMs!')
 
 #To pay for hosting
 @bot.command(name='donate', pass_context=True)
 async def hlp(ctx):
-    emb1 = discord.Embed(title='Support', description="We currently don't need donations, but it would be nice if you could upvote Poll Bot here: https://discordbots.org/bot/298673420181438465 (and get the upvoter role on the Poll Bot discord server: https://discord.gg/FhT6nUn)", color=0x83bae3)
+    emb1 = discord.Embed(title='Support', description="We currently don't need donations, but it would be nice if you could upvote Poll Bot here: https://discordbots.org/bot/298673420181438465/vote (and get the upvoter role on the Poll Bot discord server: https://discord.gg/FhT6nUn)", color=0x83bae3)
     await ctx.message.channel.send(embed=emb1)
 
 #Invite link (if people want to add Poll Bot to their own server)
@@ -127,57 +127,10 @@ async def poll(ctx):
     await ctx.message.add_reaction('👍')
     await ctx.message.add_reaction('👎')
 
-#Strawpoll
-@bot.event
-async def on_message(message):
-    command_name = bot.command_prefix + 'strawpoll'
-    messageContent = message.content
-    if message.content.startswith(command_name):
-        pollUrl = await createStrawpoll(messageContent)
-        await message.channel.send(pollUrl)
-    else:
-        await bot.process_commands(message)
-
-async def createStrawpoll(message):
-    #gets the title of the poll
-    first = message.find("{") + 1
-    second = message.find("}")
-    title = message[first:second]
-
-    #gets the # of options and assigns them to an array
-    newMessage = message[second:]
-    loopTime = 0
-
-    option = []
-    for options in message:
-        #get from } [option 1]
-        #if newThis == -1:
-        stillOptions = newMessage.find("[")
-        if stillOptions != -1:
-            if loopTime == 0:
-                first = newMessage.find("[") + 1
-
-                second = newMessage.find("]")
-                second1 = second + 1
-                option.append(newMessage[first:second])
-
-                loopTime+=1
-            else:
-                newMessage = newMessage[second1:]
-                first = newMessage.find("[") + 1
-                second = newMessage.find("]")
-                second1 = second + 1
-                option.append(newMessage[first:second])
-                loopTime+=1
-    api = strawpoll.API()
-    try:
-        poll = strawpoll.Poll(title, option[:len(option)-1])
-        pollUrl = await api.submit_poll(poll)
-        print(pollUrl.url)
-        return pollUrl.url
-    except strawpoll.errors.HTTPException:
-        return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
-
+@bot.command(name="strawpoll", pass_context=True)
+async def poll(ctx):
+        emb1 = discord.Embed(description="**Strawpolls are currently down :(**\nIf you would like to be updated when they are back online, join the Poll Bot server: <https://discord.gg/FhT6nUn>")
+        await ctx.message.channel.send(embed=emb1)
 
 if __name__ == '__main__':
     bot.run(config.discordToken)
