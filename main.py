@@ -7,6 +7,7 @@ import discord
 from discord.ext import commands
 import strawpoll
 import config
+import requests
 
 #logging
 logging.basicConfig(level=logging.INFO)
@@ -127,10 +128,61 @@ async def poll(ctx):
     await ctx.message.add_reaction('👍')
     await ctx.message.add_reaction('👎')
 
-@bot.command(name="strawpoll", pass_context=True)
-async def poll(ctx):
-        emb1 = discord.Embed(description="**Strawpolls are currently down :(**\nIf you would like to be updated when they are back online, join the Poll Bot server: <https://discord.gg/FhT6nUn>")
-        await ctx.message.channel.send(embed=emb1)
+@bot.command(name="retrying", pass_context=True)
+
+
+#Strawpoll
+@bot.event
+async def on_message(message):
+    command_name = bot.command_prefix + 'strawpoll'
+    messageContent = message.content
+    if message.content.startswith(command_name):
+        pollURL = await createStrawpoll(messageContent)
+        await message.channel.send(pollURL)
+    else:
+        await bot.process_commands(message)
+
+async def createStrawpoll(message):
+    #gets the title of the poll
+    first = message.find("{") + 1
+    second = message.find("}")
+    title = message[first:second]
+
+    #gets the # of options and assigns them to an array
+    newMessage = message[second:]
+    loopTime = 0
+
+    option = []
+    for options in message:
+        #get from } [option 1]
+        #if newThis == -1:
+        stillOptions = newMessage.find("[")
+        if stillOptions != -1:
+            if loopTime == 0:
+                first = newMessage.find("[") + 1
+
+                second = newMessage.find("]")
+                second1 = second + 1
+                option.append(newMessage[first:second])
+
+                loopTime+=1
+            else:
+                newMessage = newMessage[second1:]
+                first = newMessage.find("[") + 1
+                second = newMessage.find("]")
+                second1 = second + 1
+                option.append(newMessage[first:second])
+                loopTime+=1
+    strawpollAPI = strawpoll.API()
+    try:
+        r = requests.post('https://www.strawpoll.me/api/v2/polls', json = {"title": title, "options": option[:(len(option)-1)], "multi": "true"}, headers={"Content Type": "application/json"})
+        json = r.json()
+        return "https://strawpoll.me/" + str(json["id"])
+
+
+    except strawpoll.errors.HTTPException:
+        return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
+
 
 if __name__ == '__main__':
     bot.run(config.discordToken)
