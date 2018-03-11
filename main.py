@@ -183,6 +183,9 @@ async def createStrawpoll(message):
     except strawpoll.errors.HTTPException:
         return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
 
+    except KeyError:
+        return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
+
 
 if __name__ == '__main__':
     bot.run(config.discordToken)
