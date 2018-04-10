@@ -13,9 +13,11 @@ Add Poll Bot to your server here: https://discordapp.com/oauth2/authorize?client
 </p>
 
 ## How to use Poll Bot
-To create a strawpoll, type ‘+/strawpoll#', where # is the number of choices you want your strawpoll to have (between 2-10)
+Create a reaction poll by typing '+poll `your message`'. Poll Bot will automatically add the reactions 👍, 👎, and 🤷
 
-Create a reaction poll by typing '+/poll _____’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷
+To create a strawpoll, type '+strawpoll {`title`}[Option1][Option2][...]', where `title` is the question you want to ask and you can have anywhere from 2 to 30 options.
+
+
 
 ## Requirements
 
