@@ -1,5 +1,4 @@
-## Poll Bot
-
+[![Discord Bots](https://discordbots.org/api/widget/298673420181438465.svg)](https://discordbots.org/bot/298673420181438465)
 
 A Discord bot that lets you create strawpolls and reaction polls
 
