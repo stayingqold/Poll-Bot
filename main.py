@@ -93,10 +93,12 @@ async def srvrs(ctx):
 @bot.command(name='help', pass_context=True)
 async def hlp(ctx):
     emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing '+poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]', with up to 30 options.\n\n**Other Commands**\n+updates, +invite, +donate\n\n**Still Have Questions?**\nJoin our official discord server: <https://discord.gg/FhT6nUn>" + "\n" + "Ask us on twitter: <https://twitter.com/DiscordPollBot>", colour=0x83bae3)
-    await ctx.author.send(embed=emb1)
-    await ctx.message.channel.send('Check your DMs!')
+    try:
+        await ctx.author.send(embed=emb1)
+        await ctx.message.channel.send('Check your DMs!')
+    except discord.HTTPException:
+        await ctx.message.channel.send(embed=emb1)
 
-#To pay for hosting
 @bot.command(name='donate', pass_context=True)
 async def hlp(ctx):
     emb1 = discord.Embed(title='Support', description="We currently don't need donations, but it would be nice if you could upvote Poll Bot here: https://discordbots.org/bot/298673420181438465/vote (and get the upvoter role on the Poll Bot discord server: https://discord.gg/FhT6nUn)", color=0x83bae3)
