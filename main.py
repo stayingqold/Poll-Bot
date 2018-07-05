@@ -10,7 +10,7 @@ import config
 import requests
 
 #logging
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 
 
 bot = commands.AutoShardedBot(command_prefix='+')
@@ -22,11 +22,13 @@ async def send_stats():
     tokens = (
         ('https://discordbots.org/api/bots/%s/stats', config.orgtoken),
         ('https://bots.discord.pw/api/bots/%s/stats', config.pwtoken),
+        ('https://botsfordiscord.com/api/v1/bots/%s', config.botsfordiscordtoken)
     )
-    payload = {'server_count': len(bot.guilds)}
+    payload = {'Content-Type': 'application/json', 'server_count': len(bot.guilds)}
     for url, token in tokens:
         headers = {'Authorization': token}
         await bot.http_session.post(url % bot.user.id, json=payload, headers=headers)
+    print("posted stats")
 
 #Log in
 @bot.event
@@ -40,15 +42,16 @@ async def on_ready():
     bot.app = await bot.application_info()
     owner = bot.app.owner
     while True:
+        chnl = bot.get_channel(396183943910522880)
+        srvr = bot.get_guild(300487910619217921)
+        bot.app = await bot.application_info()
         guilds = 'guilds: ' + str(len(bot.guilds))
         users = 'users: ' + str(len(list(bot.get_all_members())))
         uniques = 'unique users: ' + str(len(discord.utils._unique(bot.get_all_members())))
-        await owner.send(guilds)
-        await owner.send(users)
-        await owner.send(uniques)
-        await owner.send('type +!more for deeper analytics')
-        await send_stats()
-        print(owner)
+        await chnl.send(guilds)
+        await chnl.send(users)
+        await chnl.send(uniques)
+        await chnl.send("server members: " + str(srvr.member_count))
         await asyncio.sleep(86400)
 
 @bot.event
@@ -87,7 +90,6 @@ async def srvrs(ctx):
     await chnl.send(users)
     await chnl.send(uniques)
     await chnl.send("server members: " + str(srvr.member_count))
-    await chnl.send('type +!mas for deeper analytics')
 
 #Help Command
 @bot.command(name='help', pass_context=True)
