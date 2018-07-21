@@ -1,16 +1,13 @@
 import asyncio
-from collections import Counter
 import json
 import logging
 import aiohttp
 import discord
 from discord.ext import commands
-import strawpoll
 import config
-import requests
 
 #logging
-logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 
 
 bot = commands.AutoShardedBot(command_prefix='+')
@@ -39,17 +36,6 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('--------')
-    while True:
-        chnl = bot.get_channel(396183943910522880)
-        srvr = bot.get_guild(300487910619217921)
-        guilds = 'guilds: ' + str(len(bot.guilds))
-        users = 'users: ' + str(len(list(bot.get_all_members())))
-        uniques = 'unique users: ' + str(len(discord.utils._unique(bot.get_all_members())))
-        await chnl.send(guilds)
-        await chnl.send(users)
-        await chnl.send(uniques)
-        await chnl.send("server members: " + str(srvr.member_count))
-        await asyncio.sleep(86400)
 
 @bot.event
 async def on_guild_join(guild):
@@ -75,20 +61,7 @@ async def upvoters(ctx):
     await channel.send('upvoters: ' + ', '.join(upvoter_names))
 
 #Sends analytics to a channel in the Poll Bot server
-@bot.command(name='!stats', pass_context=True)
-async def srvrs(ctx):
-    if ctx.author.bot:
-        print('bot tried to send message and was denied')
-    else:
-        chnl = bot.get_channel(396183943910522880)
-        srvr = bot.get_guild(300487910619217921)
-        guilds = 'guilds: ' + str(len(bot.guilds))
-        users = 'users: ' + str(len(list(bot.get_all_members())))
-        uniques = 'unique users: ' + str(len(discord.utils._unique(bot.get_all_members())))
-        await chnl.send(guilds)
-        await chnl.send(users)
-        await chnl.send(uniques)
-        await chnl.send("server members: " + str(srvr.member_count))
+
 
 #Help Command
 @bot.command(name='help', pass_context=True)
@@ -196,7 +169,7 @@ async def createStrawpoll(message):
 
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.post('https://www.strawpoll.me/api/v2/polls', json = {"title": "a", "options": option[:(len(option)-1)], "multi": "false"}, headers={"Content Type": "application/json"}) as resp:
+            async with session.post('https://www.strawpoll.me/api/v2/polls', json = {"title": title, "options": option[:(len(option)-1)], "multi": "false"}, headers={"Content Type": "application/json"}) as resp:
                 json = await resp.json()
                 return "https://strawpoll.me/" + str(json["id"])
 
