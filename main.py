@@ -30,7 +30,8 @@ async def send_stats():
 #Log in
 @bot.event
 async def on_ready():
-    await bot.change_presence(game=discord.Game(name='+help', type=0))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game(name='+help'))
+    #await bot.change_presence(game=discord.Game(name='+help', type=0))
     bot.http_session = aiohttp.ClientSession()
     print('Logged in as')
     print(bot.user.name)
@@ -58,10 +59,6 @@ async def upvoters(ctx):
     async with bot.http_session.get('https://discordbots.org/api/bots/%s/votes' % bot.user.id, headers=headers) as resp:
         upvoters = await resp.json()
     upvoter_names = [upvoter['username'] for upvoter in upvoters]
-    await channel.send('upvoters: ' + ', '.join(upvoter_names))
-
-#Sends analytics to a channel in the Poll Bot server
-
 
 #Help Command
 @bot.command(name='help', pass_context=True)
@@ -77,7 +74,7 @@ async def hlp(ctx):
             await ctx.message.channel.send(embed=emb1)
 
 @bot.command(name='donate', pass_context=True)
-async def hlp(ctx):
+async def donate(ctx):
     if ctx.author.bot:
         print('bot tried to send message and was denied')
     else:
@@ -168,10 +165,9 @@ async def createStrawpoll(message):
                 loopTime+=1
 
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.post('https://www.strawpoll.me/api/v2/polls', json = {"title": title, "options": option[:(len(option)-1)], "multi": "false"}, headers={"Content Type": "application/json"}) as resp:
-                json = await resp.json()
-                return "https://strawpoll.me/" + str(json["id"])
+        async with bot.http_session.post('https://www.strawpoll.me/api/v2/polls', json = {"title": title, "options": option[:(len(option)-1)], "multi": "false"}, headers={"Content Type": "application/json"}) as resp:
+            json = await resp.json()
+            return "https://strawpoll.me/" + str(json["id"])
 
     except strawpoll.errors.HTTPException:
         return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
