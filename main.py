@@ -10,7 +10,7 @@ import config
 import requests
 
 #logging
-#logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 
 bot = commands.AutoShardedBot(command_prefix='+')
@@ -39,7 +39,6 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('--------')
-    """
     while True:
         chnl = bot.get_channel(396183943910522880)
         srvr = bot.get_guild(300487910619217921)
@@ -51,7 +50,7 @@ async def on_ready():
         await chnl.send(uniques)
         await chnl.send("server members: " + str(srvr.member_count))
         await asyncio.sleep(86400)
-    """
+
 @bot.event
 async def on_guild_join(guild):
     print("New guild!")
