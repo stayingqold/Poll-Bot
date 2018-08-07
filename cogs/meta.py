@@ -24,5 +24,10 @@ class Meta:
         emb1 = discord.Embed(description="**Please join the Poll Bot server and see #announcements to see the latest updates! <https://discord.gg/FhT6nUn>**")
         await ctx.message.channel.send(embed=emb1)
 
+    @commands.command(name="donate")
+    async def donate(self, ctx):
+        emb1 = discord.Embed(title='Donate', description="You can donate at http://patreon.com/pollbot\nCan't donate? Upvote Poll Bot here: https://discordbots.org/bot/298673420181438465/vote", color=0x83bae3)
+        await ctx.message.channel.send(embed=emb1)
+
 def setup(bot):
     bot.add_cog(Meta(bot))
