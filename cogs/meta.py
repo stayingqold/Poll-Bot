@@ -16,7 +16,12 @@ class Meta:
 
     @commands.command(name="invite")
     async def invite(self, ctx):
-        emb1 = discord.Embed(description='Invite Poll Bot to your server: <https://discordapp.com/oauth2/authorize?client_id=298673420181438465&scope=bot&permissions=0>', colour=0x83bae3)
+        emb1 = discord.Embed(description="Invite Poll Bot to your server: <https://discordapp.com/oauth2/authorize?client_id=298673420181438465&scope=bot&permissions=0>", colour=0x83bae3)
+        await ctx.message.channel.send(embed=emb1)
+
+    @commands.command(name="updates")
+    async def updates(self, ctx):
+        emb1 = discord.Embed(description="**Please join the Poll Bot server and see #announcements to see the latest updates! <https://discord.gg/FhT6nUn>**")
         await ctx.message.channel.send(embed=emb1)
 
 def setup(bot):
