@@ -17,14 +17,14 @@ class Stats:
 
     async def send_stats():
         tokens = (
-                    ('https://discordbots.org/api/bots/%s/stats', config.orgtoken),
-                    ('https://bots.discord.pw/api/bots/%s/stats', config.pwtoken),
-                    ('https://botsfordiscord.com/api/v1/bots/%s', config.botsfordiscordtoken)
+                    ("https://discordbots.org/api/bots/%s/stats", config.orgtoken),
+                    ("https://bots.discord.pw/api/bots/%s/stats", config.pwtoken),
+                    ("https://botsfordiscord.com/api/v1/bots/%s", config.botsfordiscordtoken)
                 )
 
-        payload = {'Content-Type': 'application/json', 'server_count': len(bot.guilds)}
+        payload = {"Content-Type": "application/json", "server_count": len(bot.guilds)}
         for url, token in tokens:
-            headers = {'Authorization': token}
+            headers = {"Authorization": token}
             await self.bot.http_session.post(url % bot.user.id, json=payload, headers=headers)
 
 
