@@ -5,8 +5,8 @@ import config
 import aiohttp
 
 logging.basicConfig(level=logging.INFO)
-
-bot = commands.AutoShardedBot(command_prefix="+", status=discord.Status.online, activity=discord.Game(name='+help'))
+prefixes = ["+", "poll:", "Poll:", "POLL:"]
+bot = commands.AutoShardedBot(command_prefix=prefixes, status=discord.Status.online, activity=discord.Game(name='+help'))
 bot.remove_command("help")
 
 extensions = (
