@@ -22,7 +22,7 @@ class Poll:
 
     async def on_message(self, message):
         if not message.author.bot:
-            if message.content.startswith("+poll") or message.content.startswith("poll:") or message.content.startswith("Poll") or message.content.startswith("POLL") or message.content.startswith("+poll:" or message.content.startswith("+Poll:") or message.content.startswith("+POLL:")):
+            if message.content.startswith("+poll") or message.content.startswith("poll:") or message.content.startswith("Poll") or message.content.startswith("+poll:") or message.content.startswith("+Poll:"):
                 messageContent = message.content
                 if messageContent.find("{") == -1:
                     await message.add_reaction('👍')
@@ -45,24 +45,18 @@ class Poll:
                         if stillOptions != -1:
                             if loopTime == 0:
                                 first = newMessage.find("[") + 1
-                                if newMessage.find("]") == -1:
-                                    message.channel.send("Please make sure you are using the format poll: \{title\} [option1] [option2] [option3]")
-                                else:
-                                    second = newMessage.find("]")
-                                    second1 = second + 1
-                                    option.append(newMessage[first:second])
+                                second = newMessage.find("]")
+                                second1 = second + 1
+                                option.append(newMessage[first:second])
 
-                                    loopTime+=1
+                                loopTime+=1
                             else:
                                 newMessage = newMessage[second1:]
                                 first = newMessage.find("[") + 1
-                                if newMessage.find("]") == -1:
-                                    message.channel.send("Please make sure you are using the format poll: \{title\} [option1] [option2] [option3]")
-                                else:
-                                    second = newMessage.find("]")
-                                    second1 = second + 1
-                                    option.append(newMessage[first:second])
-                                    loopTime+=1
+                                second = newMessage.find("]")
+                                second1 = second + 1
+                                option.append(newMessage[first:second])
+                                loopTime+=1
 
                     try:
                         pollMessage = ""
@@ -70,11 +64,12 @@ class Poll:
                         #there is probably a better way to do this
                         i = 0
                         for choice in option:
-                            if len(option) > 26:
-                                await message.channel.send("Maximum of 26 options")
-                                return
-                            elif not i==len(option)-1:
-                                pollMessage = pollMessage + "\n\n" + self.emojiLetters[i] + " " + choice
+                            if not option[i] == "":
+                                if len(option) > 26:
+                                    await message.channel.send("Maximum of 26 options")
+                                    return
+                                elif not i==len(option)-1:
+                                    pollMessage = pollMessage + "\n\n" + self.emojiLetters[i] + " " + choice
                             i+=1
 
 
@@ -82,7 +77,7 @@ class Poll:
                         pollMessage = await message.channel.send(embed = e)
                         i = 0
                         for choice in option:
-                            if not i==len(option)-1:
+                            if not i==len(option)-1 and not option[i]=="":
                                 await pollMessage.add_reaction(self.emojiLetters[i])
                             i+=1
 
