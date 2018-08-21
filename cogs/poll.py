@@ -73,7 +73,7 @@ class Poll:
                             i+=1
 
 
-                        e=discord.Embed(title="**"+title+"**", description=pollMessage + "\n\n[Support the development of Poll Bot](https://goo.gl/3v4aXR)", colour=0x83bae3)
+                        e=discord.Embed(title="**"+title+"**", description=pollMessage + "\n\n[Support the development of Poll Bot](https://goo.gl/ZgowAJ)", colour=0x83bae3)
                         pollMessage = await message.channel.send(embed = e)
                         i = 0
                         for choice in option:

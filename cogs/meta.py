@@ -26,7 +26,7 @@ class Meta:
 
     @commands.command(name="donate")
     async def donate(self, ctx):
-        emb1 = discord.Embed(title='Donate', description="If you would like to support the development of Poll Bot you can donate via Patreon here: <https://patreon.com/pollbot>. Your donation will help pay the monthly server bill.\nCan't donate? Upvote Poll Bot here: https://discordbots.org/bot/298673420181438465/vote", color=0x83bae3)
+        emb1 = discord.Embed(title='Donate', description="If you would like to support the development of Poll Bot you can donate here: <https://www.ko-fi.com/pollbot>. Your donation will help pay the monthly server bill.\nCan't donate? Upvote Poll Bot here: https://discordbots.org/bot/298673420181438465/vote", color=0x83bae3)
         await ctx.message.channel.send(embed=emb1)
 
 def setup(bot):
