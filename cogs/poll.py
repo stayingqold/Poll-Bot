@@ -77,15 +77,45 @@ class Poll:
                         e=discord.Embed(title="**"+title+"**", description=pollMessage + "\n\n[Support the development of Poll Bot](https://goo.gl/ZgowAJ)", colour=0x83bae3)
                         pollMessage = await message.channel.send(embed = e)
                         i = 0
+                        final_options = []  # There is a better way to do this for sure, but it also works that way
                         for choice in option:
                             if not i==len(option)-1 and not option[i]=="":
+                                final_options.append(choice)
                                 await pollMessage.add_reaction(self.emojiLetters[i])
                             i+=1
+
+                        if '+duration' in message.content:
+                            messageWords = message.content.split(' ')
+                            for i in messageWords:
+                                if i == '+duration':
+                                    time = messageWords[messageWords.index(i) + 1]
+                            time = time.split(':')
+                            timeSeconds = int(time[0]) * 60 * 60 + int(time[1]) * 60
+                            await asyncio.sleep(timeSeconds)
+                            pollMessage = await pollMessage.channel.get_message(pollMessage.id)
+                            reactions = []
+                            for reaction in pollMessage.reactions:
+                                async for user in reaction.users():
+                                    if user == self.bot.user:
+                                        reactions.append(reaction.count)
+                            plt.subplots(figsize=(9, 6))
+                            plt.pie(reactions, labels=final_options, startangle=90, shadow=True, counterclock=False,
+                                    autopct=lambda pct:self.form(pct, reactions))
+                            plt.title(title, fontsize=27)
+                            plt.axis('equal')
+                            plt.savefig('results.png')
+                            await message.channel.send('Results for a passed poll', file=discord.File('results.png'))
+                            if '+keep' not in message.content:
+                                await pollMessage.delete()
 
                     except KeyError:
                         return "Please make sure you are using the format 'poll: {title} [Option1] [Option2] [Option 3]'"
             else:
                 return
+
+    def form(self, pct, allvals):
+        absolute = int(pct / 100. * np.sum(allvals))
+        return "{:.1f}%\n({:d})".format(pct, absolute)
 
 def setup(bot):
     bot.add_cog(Poll(bot))
