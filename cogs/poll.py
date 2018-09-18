@@ -1,5 +1,4 @@
 import discord
-from discord.ext import commands
 import asyncio
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,7 +7,7 @@ class Poll:
     def __init__(self, bot):
         self.bot = bot
 
-    #there is probably a better way to do this
+    # there is probably a better way to do this
     emojiLetters = ["\N{REGIONAL INDICATOR SYMBOL LETTER A}", "\N{REGIONAL INDICATOR SYMBOL LETTER B}",
                     "\N{REGIONAL INDICATOR SYMBOL LETTER C}", "\N{REGIONAL INDICATOR SYMBOL LETTER D}",
                     "\N{REGIONAL INDICATOR SYMBOL LETTER E}", "\N{REGIONAL INDICATOR SYMBOL LETTER F}",
@@ -36,14 +35,14 @@ class Poll:
                     second = messageContent.find("}")
                     title = messageContent[first:second]
 
-                    #gets the # of options and assigns them to an array
+                    # gets the # of options and assigns them to an array
                     newMessage = messageContent[second:]
                     loopTime = 0
 
                     option = []
                     for options in messageContent:
-                        #get from } [option 1]
-                        #if newThis == -1:
+                        # get from } [option 1]
+                        # if newThis == -1:
                         stillOptions = newMessage.find("[")
                         if stillOptions != -1:
                             if loopTime == 0:
@@ -63,7 +62,7 @@ class Poll:
                     try:
                         pollMessage = ""
 
-                        #there is probably a better way to do this
+                        # there is probably a better way to do this
                         i = 0
                         for choice in option:
                             if not option[i] == "":
