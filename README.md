@@ -16,5 +16,7 @@ Create a reaction poll by typing '+poll _____’. Poll Bot will automatically ad
 - `aiohttp` library
 - `strawpoll.py` library
 - `discord.py rewrite` library
+- `matplotlib` library
+- `numpy` library
 
 Usually `pip` will work for these
