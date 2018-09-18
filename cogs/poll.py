@@ -1,5 +1,8 @@
 import discord
 from discord.ext import commands
+import asyncio
+import matplotlib.pyplot as plt
+import numpy as np
 
 class Poll:
     def __init__(self, bot):
@@ -48,7 +51,6 @@ class Poll:
                                 second = newMessage.find("]")
                                 second1 = second + 1
                                 option.append(newMessage[first:second])
-
                                 loopTime+=1
                             else:
                                 newMessage = newMessage[second1:]
