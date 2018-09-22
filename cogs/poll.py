@@ -100,16 +100,17 @@ class Poll:
                             for reaction in pollMessage.reactions:
                                 async for user in reaction.users():
                                     if user == self.bot.user:
-                                        reactions.append(reaction.count)
-                            plt.subplots(figsize=(9, 6))
-                            plt.pie(reactions, labels=final_options, startangle=90, shadow=True, counterclock=False,
-                                    autopct=lambda pct: self.form(pct, reactions))
-                            plt.title(title, fontsize=27)
-                            plt.axis('equal')
-                            plt.savefig('results.png')
-                            await message.channel.send('Results for a passed poll', file=discord.File('results.png'))
-                            if '+keep' not in message.content:
-                                await pollMessage.delete()
+                                        reactions.append(reaction.count-1) #-1 deletes the bot's reactions
+                            if not len(reactions) == 2: #if only the bot has reactions, nothing gets sent
+                                plt.subplots(figsize=(9, 6))
+                                plt.pie(reactions, labels=final_options, startangle=90, shadow=False, counterclock=False,
+                                        autopct=lambda pct: self.form(pct, reactions))
+                                plt.title(title, fontsize=27)
+                                plt.axis('equal')
+                                plt.savefig('results.png')
+                                await message.channel.send('Results for a passed poll', file=discord.File('results.png'))
+                                if '+keep' not in message.content:
+                                    await pollMessage.delete()
 
                     except KeyError:
                         return "Please make sure you are using the format 'poll: {title} [Option1] [Option2] [Option 3]'"
