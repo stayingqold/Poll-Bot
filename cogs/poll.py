@@ -1,5 +1,7 @@
 import discord
 import asyncio
+import matplotlib
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -101,7 +103,13 @@ class Poll:
                                 async for user in reaction.users():
                                     if user == self.bot.user:
                                         reactions.append(reaction.count-1) #-1 deletes the bot's reactions
-                            if not len(reactions) == 2: #if only the bot has reactions, nothing gets sent
+
+                            #adds up the number of reactions, if the # of reactions is 0 nothing gets sent
+                            j = 0
+                            for i in range(len(reactions)):
+                                j+=reactions[i]
+                            print("dome")
+                            if not j == 0: #if only the bot has reactions, nothing gets sent
                                 plt.subplots(figsize=(9, 6))
                                 plt.pie(reactions, labels=final_options, startangle=90, shadow=False, counterclock=False,
                                         autopct=lambda pct: self.form(pct, reactions))
