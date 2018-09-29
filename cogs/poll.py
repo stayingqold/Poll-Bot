@@ -65,8 +65,8 @@ class Poll:
                         i = 0
                         for choice in option:
                             if not option[i] == "":
-                                if len(option) > 26:
-                                    await message.channel.send("Maximum of 26 options")
+                                if len(option) > 20:
+                                    await message.channel.send("Maximum of 20 options")
                                     return
                                 elif not i==len(option)-1:
                                     pollMessage = pollMessage + "\n\n" + self.emojiLetters[i] + " " + choice
