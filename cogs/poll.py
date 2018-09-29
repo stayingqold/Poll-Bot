@@ -23,7 +23,7 @@ class Poll:
     async def on_message(self, message):
         if not message.author.bot:
             if message.content.startswith("+poll") or message.content.startswith("poll:") or message.content.startswith("Poll") or message.content.startswith("+poll:") or message.content.startswith("+Poll:"):
-                messageContent = message.content
+                messageContent = message.clean_content
                 if messageContent.find("{") == -1:
                     await message.add_reaction('👍')
                     await message.add_reaction('👎')
