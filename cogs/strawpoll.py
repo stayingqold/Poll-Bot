@@ -8,7 +8,7 @@ class StrawPoll:
     @commands.command(name="strawpoll")
     async def strawpoll(self, ctx):
         if not ctx.message.author.bot:
-            message = ctx.message.content
+            message = ctx.message.clean_content
 
             #gets the title of the poll
             first = message.find("{") + 1
