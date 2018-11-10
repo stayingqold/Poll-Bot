@@ -13,7 +13,8 @@ extensions = (
                 'cogs.poll',
                 'cogs.strawpoll',
                 'cogs.meta',
-                'cogs.stats'
+                'cogs.stats',
+                'cogs.owner'
             )
 
 
