@@ -27,9 +27,8 @@ class Poll:
 
     async def on_message(self, message):
         if not message.author.bot:
-            if message.content.startswith("+poll") or message.content.startswith("poll:") or message.content.startswith(
-                    "Poll") or message.content.startswith("+poll:") or message.content.startswith("+Poll:"):
-                messageContent = message.content
+            if message.content.startswith("+poll") or message.content.startswith("poll:") or message.content.startswith("Poll:") or message.content.startswith("+poll:") or message.content.startswith("+Poll:"):
+                messageContent = message.clean_content
                 if messageContent.find("{") == -1:
                     await message.add_reaction('👍')
                     await message.add_reaction('👎')
@@ -70,8 +69,8 @@ class Poll:
                         i = 0
                         for choice in option:
                             if not option[i] == "":
-                                if len(option) > 26:
-                                    await message.channel.send("Maximum of 26 options")
+                                if len(option) > 20:
+                                    await message.channel.send("Maximum of 20 options")
                                     return
                                 elif not i == len(option) - 1:
                                     pollMessage = pollMessage + "\n\n" + self.emojiLetters[i] + " " + choice
