@@ -1,7 +1,6 @@
 import discord
 import asyncio
 import matplotlib
-matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -106,14 +105,16 @@ class Poll:
                             j = 0
                             for i in range(len(reactions)):
                                 j+=reactions[i]
+                            reactions.sort()
+
                             if not j == 0: #if only the bot has reactions, nothing gets sent
                                 plt.subplots(figsize=(9, 6))
-                                plt.bar(final_options, reactions, width=0.1, bottom=None)
-                                #plt.pie(reactions, labels=final_options, startangle=90, shadow=False, counterclock=False,
-                                #autopct=lambda pct: self.form(pct, reactions))
+                                plt.ylim(0,1.5)
+                                plt.bar(final_options, reactions, width=0.8, bottom=0)
                                 plt.title(title, fontsize=27)
-                                plt.axis('equal')
                                 plt.savefig('results.png')
+                                print(reactions)
+                                print(final_options)
                                 await message.channel.send('Results for a passed poll created by: <@' + str(message.author.id) + ">", file=discord.File('results.png'))
                                 if '+keep' not in message.content:
                                     await pollMessage.delete()
