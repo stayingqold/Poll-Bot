@@ -105,7 +105,6 @@ class Poll:
                             j = 0
                             for i in range(len(reactions)):
                                 j+=reactions[i]
-                            reactions.sort()
 
                             if not j == 0: #if only the bot has reactions, nothing gets sent
                                 plt.subplots(figsize=(9, 6))
