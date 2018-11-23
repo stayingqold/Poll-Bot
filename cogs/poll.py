@@ -108,7 +108,6 @@ class Poll:
 
                             if not j == 0: #if only the bot has reactions, nothing gets sent
                                 plt.subplots(figsize=(9, 6))
-                                plt.ylim(0,1.5)
                                 plt.bar(final_options, reactions, width=0.8, bottom=0)
                                 plt.title(title, fontsize=27)
                                 plt.savefig('results.png')
