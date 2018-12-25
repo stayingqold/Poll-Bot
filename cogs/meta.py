@@ -7,7 +7,7 @@ class Meta:
 
     @commands.command(name="help")
     async def help(self, ctx):
-        emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing 'poll: *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\nCreate a reaction poll with multiple options by typing `poll: {title} [Option1] [Option2] [Option3]`. Add '+duration {hours}:{minutes}' to the message if you want the poll to end automatically (with*out* the {}). When the poll ends, the bot will send a message with a pie plot with the answers given in the channel of the poll.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]', with up to 30 options.\n\n**Other Commands**\n+updates, +invite, +donate\n\n**Still Have Questions?**\nJoin our official discord server: <https://discord.gg/FhT6nUn>" + "\n" + "Ask us on twitter: <https://twitter.com/DiscordPollBot>", colour=0x83bae3)
+        emb1 = discord.Embed(description="**Reaction Poll**\nCreate a reaction poll by typing 'poll: *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\nCreate a reaction poll with multiple options by typing `poll: {title} [Option1] [Option2] [Option3]`. Add '+duration {hours}:{minutes}' to the message if you want the poll to end automatically (with*out* the {}). When the poll ends, the bot will send a message with a bar chart with the answers given in the channel of the poll.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]', with up to 30 options.\n\n**Other Commands**\n+updates, +invite\n\n**Still Have Questions?**\nJoin our Dscord server: <https://discord.gg/FhT6nUn>" + "\n" + "Ask us on Twitter: <https://twitter.com/DiscordPollBot>", colour=0x83bae3)
         try:
             await ctx.author.send(embed=emb1)
             await ctx.message.channel.send('Check your DMs!')
@@ -22,11 +22,6 @@ class Meta:
     @commands.command(name="updates")
     async def updates(self, ctx):
         emb1 = discord.Embed(description="**Please join the Poll Bot server and see #announcements to see the latest updates! <https://discord.gg/FhT6nUn>**")
-        await ctx.message.channel.send(embed=emb1)
-
-    @commands.command(name="donate")
-    async def donate(self, ctx):
-        emb1 = discord.Embed(title='Donate', description="If you would like to support the development of Poll Bot you can donate here: <https://www.ko-fi.com/H2H4IF2R>. Your donation will help pay the monthly server bill.\nCan't donate? Upvote Poll Bot here: https://discordbots.org/bot/298673420181438465/vote", color=0x83bae3)
         await ctx.message.channel.send(embed=emb1)
 
 def setup(bot):

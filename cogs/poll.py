@@ -76,7 +76,7 @@ class Poll:
                             i += 1
 
                         e = discord.Embed(title="**" + title + "**",
-                                          description=pollMessage + "\n\n[Support the development of Poll Bot](https://goo.gl/ZgowAJ)",
+                                description=pollMessage + "\n\n[Want to advertise your server or product here? Email finnr@protonmail.com](mailto:finnr@protonmail.com)",
                                           colour=0x83bae3)
                         pollMessage = await message.channel.send(embed=e)
                         i = 0
