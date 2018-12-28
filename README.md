@@ -17,7 +17,6 @@ Add '+duration {hours}:{minutes}' to the message if you want the poll to end aut
 
 - Python 3.4.2+
 - `aiohttp` library
-- `strawpoll.py` library
 - `discord.py rewrite` library
 - `matplotlib` library
 - `numpy` library
