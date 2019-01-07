@@ -93,29 +93,33 @@ class Poll:
                                 if i == '+duration':
                                     time = messageWords[messageWords.index(i) + 1]
                             time = time.split(':')
-                            timeSeconds = int(time[0]) * 60 * 60 + int(time[1]) * 60
-                            await asyncio.sleep(timeSeconds)
-                            pollMessage = await pollMessage.channel.get_message(pollMessage.id)
-                            reactions = []
-                            for reaction in pollMessage.reactions:
-                                async for user in reaction.users():
-                                    if user == self.bot.user:
-                                        reactions.append(reaction.count-1) #-1 deletes the bot's reactions
-                            #adds up the number of reactions, if the # of reactions is 0 nothing gets sent
-                            j = 0
-                            for i in range(len(reactions)):
-                                j+=reactions[i]
+                            if int(time[0]) > 168:
+                                await message.channel.send("Duration is limited to 7 days, no duration set for the poll above.")
+                            else:
 
-                            if not j == 0: #if only the bot has reactions, nothing gets sent
-                                plt.subplots(figsize=(9, 6))
-                                plt.bar(final_options, reactions, width=0.8, bottom=0)
-                                plt.title(title, fontsize=27)
-                                plt.savefig('results.png')
-                                print(reactions)
-                                print(final_options)
-                                await message.channel.send('Results for a passed poll created by: <@' + str(message.author.id) + ">", file=discord.File('results.png'))
-                                if '+keep' not in message.content:
-                                    await pollMessage.delete()
+                                timeSeconds = int(time[0]) * 60 * 60 + int(time[1]) * 60
+                                await asyncio.sleep(timeSeconds)
+                                pollMessage = await pollMessage.channel.get_message(pollMessage.id)
+                                reactions = []
+                                for reaction in pollMessage.reactions:
+                                    async for user in reaction.users():
+                                        if user == self.bot.user:
+                                            reactions.append(reaction.count-1) #-1 deletes the bot's reactions
+                                #adds up the number of reactions, if the # of reactions is 0 nothing gets sent
+                                j = 0
+                                for i in range(len(reactions)):
+                                    j+=reactions[i]
+
+                                if not j == 0: #if only the bot has reactions, nothing gets sent
+                                    plt.subplots(figsize=(9, 6))
+                                    plt.bar(final_options, reactions, width=0.8, bottom=0)
+                                    plt.title(title, fontsize=27)
+                                    plt.savefig('results.png')
+                                    print(reactions)
+                                    print(final_options)
+                                    await message.channel.send('Results for a passed poll created by: <@' + str(message.author.id) + ">", file=discord.File('results.png'))
+                                    if '+keep' not in message.content:
+                                        await pollMessage.delete()
 
                     except KeyError:
                         return "Please make sure you are using the format 'poll: {title} [Option1] [Option2] [Option 3]'"
