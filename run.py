@@ -4,7 +4,7 @@ import logging
 import config
 import aiohttp
 
-#logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 prefixes = ["+", "poll:", "Poll:", "POLL:"]
 bot = commands.AutoShardedBot(command_prefix=prefixes, status=discord.Status.online, activity=discord.Game(name='+help'))
 bot.remove_command("help")
