@@ -1,6 +1,6 @@
 import discord
 import asyncio
-from cogs.utils.Database import Database
+# from cogs.utils.Database import Database
 from datetime import datetime, timedelta
 
 
@@ -9,7 +9,7 @@ class Poll:
     def __init__(self, bot):
         self.bot = bot
 
-        self.database = Database("sample_db", "finn", "localhost")
+        # self.database = Database("sample_db", "finn", "localhost")
 
         # there is probably a better way to do this
         self.emojiLetters = ["\N{REGIONAL INDICATOR SYMBOL LETTER A}", "\N{REGIONAL INDICATOR SYMBOL LETTER B}",
@@ -88,6 +88,7 @@ class Poll:
                                 final_options.append(choice)
                                 await pollMessage.add_reaction(self.emojiLetters[i])
                             i += 1
+                        """
                         if "+duration" in message.content:
                             messageWords = message.content.split(' ')
                             for i in messageWords:
@@ -120,7 +121,7 @@ class Poll:
                                 print(reactions)
                                 print(final_options)
                                 await message.channel.send('Results for a passed poll created by: <@' + str(message.author.id) + ">", file=discord.File('results.png'))
-
+                    """
                     except KeyError:
                         return "Please make sure you are using the format 'poll: {title} [Option1] [Option2] [Option 3]'"
             else:
