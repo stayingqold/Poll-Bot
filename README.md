@@ -15,10 +15,8 @@ Add '+duration {hours}:{minutes}' to the message if you want the poll to end aut
 
 ## Requirements
 
-- Python 3.5.2+
+- Python 3.5.3+
 - `aiohttp` library
-- `discord.py rewrite` library
-- `matplotlib` library
-- `numpy` library
+- `discord.py` library
 
 Usually `pip` will work for these

@@ -5,7 +5,7 @@ import asyncio
 import aiohttp
 import config
 
-class Stats:
+class Stats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
