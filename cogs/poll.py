@@ -1,9 +1,9 @@
 import discord
 import asyncio
+
 # from cogs.utils.Database import Database
 from datetime import datetime, timedelta
 from discord.ext import commands
-
 
 
 class Poll(commands.Cog):
@@ -13,30 +13,51 @@ class Poll(commands.Cog):
         # self.database = Database("sample_db", "finn", "localhost")
 
         # there is probably a better way to do this
-        self.emojiLetters = ["\N{REGIONAL INDICATOR SYMBOL LETTER A}", "\N{REGIONAL INDICATOR SYMBOL LETTER B}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER C}", "\N{REGIONAL INDICATOR SYMBOL LETTER D}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER E}", "\N{REGIONAL INDICATOR SYMBOL LETTER F}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER G}", "\N{REGIONAL INDICATOR SYMBOL LETTER H}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER I}", "\N{REGIONAL INDICATOR SYMBOL LETTER J}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER K}", "\N{REGIONAL INDICATOR SYMBOL LETTER L}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER M}", "\N{REGIONAL INDICATOR SYMBOL LETTER N}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER O}", "\N{REGIONAL INDICATOR SYMBOL LETTER P}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER Q}", "\N{REGIONAL INDICATOR SYMBOL LETTER R}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER S}", "\N{REGIONAL INDICATOR SYMBOL LETTER T}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER U}", "\N{REGIONAL INDICATOR SYMBOL LETTER V}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER W}", "\N{REGIONAL INDICATOR SYMBOL LETTER X}",
-                        "\N{REGIONAL INDICATOR SYMBOL LETTER Y}", "\N{REGIONAL INDICATOR SYMBOL LETTER Z}"]
+        self.emojiLetters = [
+            "\N{REGIONAL INDICATOR SYMBOL LETTER A}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER B}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER C}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER D}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER E}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER F}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER G}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER H}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER I}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER J}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER K}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER L}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER M}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER N}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER O}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER P}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER Q}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER R}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER S}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER T}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER U}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER V}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER W}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER X}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER Y}",
+            "\N{REGIONAL INDICATOR SYMBOL LETTER Z}",
+        ]
 
-    @commands.command(name = "poll")
+    @commands.command(name="poll")
     async def poll(self, ctx):
         message = ctx.message
         if not message.author.bot:
-            if message.content.startswith("+poll") or message.content.startswith("poll:") or message.content.startswith("Poll:") or message.content.startswith("+poll:") or message.content.startswith("+Poll:"):
+            if (
+                message.content.startswith("+poll")
+                or message.content.startswith("poll:")
+                or message.content.startswith("Poll:")
+                or message.content.startswith("+poll:")
+                or message.content.startswith("+Poll:")
+            ):
                 messageContent = message.clean_content
                 if messageContent.find("{") == -1:
-                    await message.add_reaction('👍')
-                    await message.add_reaction('👎')
-                    await message.add_reaction('🤷')
+                    await message.add_reaction("👍")
+                    await message.add_reaction("👎")
+                    await message.add_reaction("🤷")
                 else:
                     first = messageContent.find("{") + 1
                     second = messageContent.find("}")
@@ -77,15 +98,25 @@ class Poll(commands.Cog):
                                     await message.channel.send("Maximum of 20 options")
                                     return
                                 elif not i == len(option) - 1:
-                                    pollMessage = pollMessage + "\n\n" + self.emojiLetters[i] + " " + choice
+                                    pollMessage = (
+                                        pollMessage
+                                        + "\n\n"
+                                        + self.emojiLetters[i]
+                                        + " "
+                                        + choice
+                                    )
                             i += 1
 
-                        e = discord.Embed(title="**" + title + "**",
-                                description=pollMessage,
-                                          colour=0x83bae3)
+                        e = discord.Embed(
+                            title="**" + title + "**",
+                            description=pollMessage,
+                            colour=0x83BAE3,
+                        )
                         pollMessage = await message.channel.send(embed=e)
                         i = 0
-                        final_options = []  # There is a better way to do this for sure, but it also works that way
+                        final_options = (
+                            []
+                        )  # There is a better way to do this for sure, but it also works that way
                         for choice in option:
                             if not i == len(option) - 1 and not option[i] == "":
                                 final_options.append(choice)
@@ -97,8 +128,9 @@ class Poll(commands.Cog):
                 return
 
     def form(self, pct, allvals):
-        absolute = int(pct / 100. * np.sum(allvals))
+        absolute = int(pct / 100.0 * np.sum(allvals))
         return "{:.1f}%\n({:d})".format(pct, absolute)
+
 
 def setup(bot):
     bot.add_cog(Poll(bot))
