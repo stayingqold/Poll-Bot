@@ -9,7 +9,7 @@ class Meta(commands.Cog):
     @commands.command(name="help")
     async def help(self, ctx):
         emb1 = discord.Embed(
-            description="**Reaction Poll**\nCreate a reaction poll by typing '+poll *your message*’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\nCreate a reaction poll with multiple options by typing `+poll {title} [Option1] [Option2] [Option3]`.\n\n**Strawpoll**\nCreate a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]', with up to 30 options.\n\n**Other Commands**\n+updates, +invite\n\n**Still Have Questions?**\nJoin our Discord server: <https://discord.gg/FhT6nUn>"
+            description="**Reaction Poll**\nCreate a reaction poll by typing `+poll *your message*`. Poll Bot will automatically add the reactions 👍, 👎, and 🤷.\nCreate a reaction poll with multiple options by typing `+poll {title} [Option1] [Option2] [Option3]`.\n\n**Strawpoll**\nCreate a strawpoll by typing `+strawpoll {title} [Option1] [Option2] [Option 3]`, with up to 30 options.\n\n**Other Commands**\n+invite\n\n**Still Have Questions?**\nJoin our Discord server: <https://discord.gg/FhT6nUn>"
             + "\n"
             + "Ask us on Twitter: <https://twitter.com/DiscordPollBot>",
             colour=0x83BAE3,
