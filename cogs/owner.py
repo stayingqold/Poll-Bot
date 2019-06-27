@@ -39,6 +39,13 @@ class Owner(commands.Cog):
         else:
             await ctx.send("**`SUCCESS`**")
 
+    @commands.command(name="stats", hidden=True)
+    @commands.is_owner()
+    async def getStats(self, ctx):
+        await ctx.send("Guilds: " + str(len(self.bot.guilds)))
+        await ctx.send("Unique Users: " + str(len(discord.utils._unique(self.bot.get_all_members()))))
+
+
 
 def setup(bot):
     bot.add_cog(Owner(bot))
