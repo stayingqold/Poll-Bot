@@ -21,7 +21,7 @@ class Meta(commands.Cog):
             await ctx.message.channel.send(embed=emb1)
 
     @commands.command(name="donate")
-    async def help(self, ctx):
+    async def donate(self, ctx):
         emb1 = discord.Embed(
             description="**Donate**\nThank you for considering donating to Poll Bot. Your donation will help pay for the monthly server costs.\n\n"
                         + "Donation Platforms:\n"
