@@ -43,7 +43,7 @@ class Owner(commands.Cog):
     @commands.is_owner()
     async def getStats(self, ctx):
         await ctx.send("Guilds: " + str(len(self.bot.guilds)))
-        await ctx.send("Unique Users: " + str(len(discord.utils._unique(self.bot.get_all_members()))))
+        await ctx.send("Unique Users: " + str(len(self.bot.users)))
 
 
 
