@@ -21,6 +21,8 @@ class PollBot(commands.AutoShardedBot):
             command_prefix = prefixes,
             status = discord.Status.online,
             activity = discord.Game(name = "+help"))
+        self.shard_count = 10
+        self.shard_ids = (1, 2, 3, 4, 5, 6, 7, 8, 9)
         self.remove_command("help")
         
         for extension in extensions:
@@ -36,3 +38,6 @@ class PollBot(commands.AutoShardedBot):
     async def on_message(self, message):
         if not message.author.bot:
             await self.process_commands(message)
+
+    def run(self):
+        super().run(config.discordToken, reconnect=True)
