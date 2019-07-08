@@ -15,14 +15,14 @@ extensions = (
     )
 
 class PollBot(commands.AutoShardedBot):
-    def __init__(self):
+    def __init__(self, num_shards, shard_ids):
         prefixes = ["+", "poll:", "Poll:", "POLL:"]
         super().__init__(
             command_prefix = prefixes,
             status = discord.Status.online,
             activity = discord.Game(name = "+help"))
-        self.shard_count = 10
-        self.shard_ids = (1, 2, 3, 4, 5, 6, 7, 8, 9)
+        self.shard_count = num_shards
+        self.shard_ids = shard_ids
         self.remove_command("help")
         
         for extension in extensions:
