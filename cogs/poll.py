@@ -87,7 +87,7 @@ class Poll(commands.Cog):
                             i += 1
 
                         e = discord.Embed(title="**" + title + "**",
-                                description=pollMessage,
+                                description=pollMessage + "\n\n[Don't let eye strain ruin your day. Protect your eyes from harmful blue light using Bakery Gaming's glasses.](https://bakerygaming.store)",
                                           colour=0x83bae3)
                         pollMessage = await message.channel.send(embed=e)
                         i = 0
