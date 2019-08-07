@@ -45,6 +45,12 @@ class Owner(commands.Cog):
         await ctx.send("Guilds: " + str(len(self.bot.guilds)))
         await ctx.send("Unique Users: " + str(len(self.bot.users)))
 
+    @commands.command(name="shards", hidden=True)
+    @commands.is_owner()
+    async def getShards(self, ctx):
+        await ctx.send("Shards: " + str(self.bot.shard_count))
+
+
 
 
 def setup(bot):
