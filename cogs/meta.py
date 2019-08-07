@@ -61,7 +61,7 @@ class Meta(commands.Cog):
         channel_perms = me.permissions_in(ctx.channel)
         shard_id = str(ctx.guild.shard_id)
 
-        desc = "**Support Info**\n\n" + "**Permissions**\n" + "Read Messages: " + str(channel_perms.read_messages) + "\nSend Messages: " + str(channel_perms.send_messages) + "\nAdd Reactions: " + str(channel_perms.add_reactions) +  "\nEmbed Links: " + str(channel_perms.embed_links) + "\nRead Message History: " + str(channel_perms.read_message_history) + "\n\n" + "**Other**\n" + "Shard ID: " + str(ctx.guild.shard_id)
+        desc = "**Support Info**\n\n" + "**Permissions**\n" + "Admin: " + str(channel_perms.administrator) + "\nRead Messages: " + str(channel_perms.read_messages) + "\nSend Messages: " + str(channel_perms.send_messages) + "\nAdd Reactions: " + str(channel_perms.add_reactions) +  "\nEmbed Links: " + str(channel_perms.embed_links) + "\nRead Message History: " + str(channel_perms.read_message_history) + "\n\n" + "**Other**\n" + "Shard ID: " + str(ctx.guild.shard_id)
 
 
         emb = discord.Embed(description=desc, 
