@@ -14,11 +14,7 @@ class Meta(commands.Cog):
             + "Ask us on Twitter: <https://twitter.com/DiscordPollBot>",
             colour=0x83BAE3,
         )
-        try:
-            await ctx.author.send(embed=emb1)
-            await ctx.message.channel.send("Check your DMs!")
-        except discord.HTTPException:
-            await ctx.message.channel.send(embed=emb1)
+        await ctx.message.channel.send(embed=emb1)
 
     @commands.command(name="donate")
     async def donate(self, ctx):
