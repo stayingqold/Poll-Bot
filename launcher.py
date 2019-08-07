@@ -21,7 +21,7 @@ try:
 	shard_ids = tuple(shard_ids_list)
 
 except:
-	print("Add arguments for number of shards and the shard ID range\nEx: python3 launcher.py 10 1:15")
+	print("Add arguments for number of shards and the shard ID range\nEx: python3 launcher.py 10 0:9")
 	exit()
 
 bot = PollBot(num_shards, shard_ids)
