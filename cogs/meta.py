@@ -63,11 +63,7 @@ class Meta(commands.Cog):
 
         desc = "**Support Info**\n\n" + "**Permissions**\n" + "Admin: " + str(channel_perms.administrator) + "\nRead Messages: " + str(channel_perms.read_messages) + "\nSend Messages: " + str(channel_perms.send_messages) + "\nAdd Reactions: " + str(channel_perms.add_reactions) +  "\nEmbed Links: " + str(channel_perms.embed_links) + "\nRead Message History: " + str(channel_perms.read_message_history) + "\n\n" + "**Other**\n" + "Shard ID: " + str(ctx.guild.shard_id)
 
-
-        emb = discord.Embed(description=desc, 
-                            color = 0x83BAE3
-                            )
-        await ctx.message.channel.send(embed=emb)
+        await ctx.message.channel.send(desc)
 
 
 
