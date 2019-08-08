@@ -79,7 +79,7 @@ class Poll(commands.Cog):
                         i = 0
                         for choice in option:
                             if not option[i] == "":
-                                if len(option) > 20:
+                                if len(option) > 21:
                                     await message.channel.send("Maximum of 20 options")
                                     return
                                 elif not i == len(option) - 1:
