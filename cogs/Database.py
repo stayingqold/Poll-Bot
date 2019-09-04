@@ -1,23 +1,44 @@
 import asyncpg
 import asyncio
-#import config
+import datetime
 
 """
-server_stats
- poll_bot_one | poll_bot_two | ts 
---------------+--------------+----
-            y |            x |   z
-x = # of guilds on poll bot server 1
-y = # of guilds on poll bot server 2
-z = date and time the value was added
+TABLES:
+
+poll_bot_one
+ guilds |             ts             
+--------+----------------------------
+      n | timestamp
+
+poll_bot_two
+ guilds |             ts             
+--------+----------------------------
+      n | timestamp
 
 """
+
 class Database():
 
 	def __init__(self):
-		return
+		self.user = "user"
+		self.password = "pwd"
+		self.database = "db"
+		self.host = "host"
 
 	async def get_server_stats(self):
-		self.conn = await asyncpg.connect(user = "username", password = "pwd", database = "db", host = "host")
-		values = await self.conn.fetch('''SELECT * FROM server_stats''')
-		return values[len(values)-1]["poll_bot_one"] + values[len(values)-1]["poll_bot_two"]
+		self.conn = await asyncpg.connect(user = self.user, password = self.password, database = self.database, host = self.host)
+		poll_bot_one_stats = await self.conn.fetch('''SELECT * FROM poll_bot_one;''')
+		poll_bot_two_stats = await self.conn.fetch('''SELECT * FROM poll_bot_two;''')
+		return poll_bot_one_stats[len(poll_bot_one_stats)-1]["guilds"] + poll_bot_two_stats[len(poll_bot_two_stats)-1]["guilds"]
+		await self.conn.close()
+
+	# server_name is either poll_bot_one or poll_bot_two
+	# server_name refers to the physical server, not the guild
+	async def post_server_stats(self, server_name, num_guilds):
+		self.conn = await asyncpg.connect(user = self.user, password = self.password, database = self.database, host = self.host)
+		await self.conn.execute(f"""
+								INSERT INTO {server_name} (guilds, ts)
+								VALUES ({num_guilds}, now())
+								""")
+									
+		await self.conn.close()
