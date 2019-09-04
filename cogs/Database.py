@@ -29,8 +29,8 @@ class Database():
 		self.conn = await asyncpg.connect(user = self.user, password = self.password, database = self.database, host = self.host)
 		poll_bot_one_stats = await self.conn.fetch('''SELECT * FROM poll_bot_one;''')
 		poll_bot_two_stats = await self.conn.fetch('''SELECT * FROM poll_bot_two;''')
-		return poll_bot_one_stats[len(poll_bot_one_stats)-1]["guilds"] + poll_bot_two_stats[len(poll_bot_two_stats)-1]["guilds"]
 		await self.conn.close()
+		return poll_bot_one_stats[len(poll_bot_one_stats)-1]["guilds"] + poll_bot_two_stats[len(poll_bot_two_stats)-1]["guilds"]
 
 	# server_name is either poll_bot_one or poll_bot_two
 	# server_name refers to the physical server, not the guild
