@@ -14,7 +14,6 @@ class BackgroundTasks(commands.Cog):
     async def update_server_count(self):
         while not self.bot.is_closed():
             await self.db.post_server_stats(self.bot.config["physical_server_name"], len(self.bot.guilds))
-            print(len(self.bot.guilds))
             # This sleep makes sure both servers post their stats before we try to retrieve them
             await asyncio.sleep(30)
             num_guilds = await self.db.get_server_stats()
@@ -23,13 +22,9 @@ class BackgroundTasks(commands.Cog):
                 "Content-Type": "application/json",
                 "server_count": num_guilds,
             }
-            print(num_guilds)
-            print(self.bot.user.id)
-            z = await self.bot.http_session.post(
+            await self.bot.http_session.post(
                     f"https://discordbots.org/api/bots/298673420181438465/stats", json=payload, headers=headers
             )
-            print(z)
-            print("AA")
             await asyncio.sleep(3570)
 
             
