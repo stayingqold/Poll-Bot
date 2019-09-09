@@ -19,11 +19,11 @@ poll_bot_two
 
 class Database():
 
-	def __init__(self):
-		self.user = "user"
-		self.password = "pwd"
-		self.database = "db"
-		self.host = "host"
+	def __init__(self, config):
+		self.user = config["db"]["user"]
+		self.password = config["db"]["password"]
+		self.database = config["db"]["database"]
+		self.host = config["db"]["host"]
 
 	async def get_server_stats(self):
 		self.conn = await asyncpg.connect(user = self.user, password = self.password, database = self.database, host = self.host)
