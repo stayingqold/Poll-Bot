@@ -39,12 +39,6 @@ class Owner(commands.Cog):
         else:
             await ctx.send("**`SUCCESS`**")
 
-    @commands.command(name="stats", hidden=True)
-    @commands.is_owner()
-    async def getStats(self, ctx):
-        await ctx.send("Guilds: " + str(len(self.bot.guilds)))
-        await ctx.send("Unique Users: " + str(len(self.bot.users)))
-
     @commands.command(name="shards", hidden=True)
     @commands.is_owner()
     async def getShards(self, ctx):
