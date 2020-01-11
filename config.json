@@ -1,16 +1,4 @@
 {
-	"physical_server_name" : "poll_bot_one",
 	"discord_token" : "discord token",
-	"discordbotsorg_token" : "discordbots.org token",
-	"db" : {
-		"user" : "user",
-		"password" : "password",
-		"database" : "db",
-		"host" : "host"
-	},
-	"shards" : {
-		"count" : 0,
-		"first_shard_id" : 0,
-		"last_shard_id" : 0
-	}
+	"discordbotsorg_token" : "discordbots.org token"
 }
