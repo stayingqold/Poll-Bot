@@ -107,9 +107,5 @@ class Poll(commands.Cog):
             else:
                 return
 
-    def form(self, pct, allvals):
-        absolute = int(pct / 100. * np.sum(allvals))
-        return "{:.1f}%\n({:d})".format(pct, absolute)
-
 def setup(bot):
     bot.add_cog(Poll(bot))
