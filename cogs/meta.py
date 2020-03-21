@@ -33,7 +33,7 @@ class Meta(commands.Cog):
     @commands.command(name="invite")
     async def invite(self, ctx):
         emb1 = discord.Embed(
-            description="Invite Poll Bot to your server: <https://discordapp.com/oauth2/authorize?client_id=298673420181438465&scope=bot&permissions=0>",
+            description="Invite Poll Bot to your server: <https://discordapp.com/oauth2/authorize?client_id=298673420181438465&permissions=84032&scope=bot>",
             colour=0x83BAE3,
         )
         await ctx.message.channel.send(embed=emb1)
