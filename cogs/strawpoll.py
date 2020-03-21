@@ -44,21 +44,21 @@ class StrawPoll(commands.Cog):
 
             try:
                 async with self.bot.http_session.post(
-                    "https://www.strawpoll.me/api/v2/polls",
+                    "https://strawpoll.com/api/poll",
                     json={
-                        "title": title,
-                        "options": option[: (len(option) - 1)],
-                        "multi": "false",
+                        "poll": {
+                            "title": title,
+                            "answers": option[: (len(option) - 1)],
+                        }
+                        
                     },
                     headers={"Content Type": "application/json"},
                 ) as resp:
                     json = await resp.json()
+                    
                     await ctx.message.channel.send(
-                        "https://strawpoll.me/" + str(json["id"])
+                        "https://strawpoll.com/" + str(json["content_id"])
                     )
-
-            except strawpoll.errors.HTTPException:
-                return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
 
             except KeyError:
                 return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
