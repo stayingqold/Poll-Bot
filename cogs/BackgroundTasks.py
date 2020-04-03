@@ -13,9 +13,11 @@ class BackgroundTasks(commands.Cog):
     @commands.Cog.listener(name='on_ready')
     async def update_server_count(self):
         while not self.bot.is_closed():
+            print('going')
             await self.db.post_server_stats(self.bot.config["physical_server_name"], len(self.bot.guilds))
+            print("made it thru")
             # This sleep makes sure both servers post their stats before we try to retrieve them
-            await asyncio.sleep(30)
+            # await asyncio.sleep(30)
             num_guilds = await self.db.get_server_stats()
             headers = {"Authorization": self.bot.config["discordbotsorg_token"]}
             payload = {
@@ -25,6 +27,7 @@ class BackgroundTasks(commands.Cog):
             await self.bot.http_session.post(
                     f"https://discordbots.org/api/bots/298673420181438465/stats", json=payload, headers=headers
             )
+            print('person right here')
             await asyncio.sleep(3570)
 
             
