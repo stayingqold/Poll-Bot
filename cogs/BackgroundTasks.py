@@ -15,7 +15,7 @@ class BackgroundTasks(commands.Cog):
         while not self.bot.is_closed():
             await self.db.post_server_stats(self.bot.config["physical_server_name"], len(self.bot.guilds))
             # This sleep makes sure both servers post their stats before we try to retrieve them
-            # await asyncio.sleep(30)
+            await asyncio.sleep(30)
             num_guilds = await self.db.get_server_stats()
             headers = {"Authorization": self.bot.config["discordbotsorg_token"]}
             payload = {
