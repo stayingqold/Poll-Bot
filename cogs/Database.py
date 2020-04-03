@@ -27,7 +27,6 @@ class Database():
 
 	async def get_server_stats(self):
 		self.conn = await asyncpg.connect(user = self.user, password = self.password, database = self.database, host = self.host)
-		print(self.conn)
 		poll_bot_one_stats = await self.conn.fetch('''SELECT * FROM poll_bot_one;''')
 		poll_bot_two_stats = await self.conn.fetch('''SELECT * FROM poll_bot_two;''')
 		await self.conn.close()
@@ -37,7 +36,6 @@ class Database():
 	# server_name refers to the physical server, not the guild
 	async def post_server_stats(self, server_name, num_guilds):
 		self.conn = await asyncpg.connect(user = self.user, password = self.password, database = self.database, host = self.host)
-		print(self.conn)
 		await self.conn.execute(f"""
 								INSERT INTO {server_name} (guilds, ts)
 								VALUES ({num_guilds}, now())
