@@ -3,7 +3,7 @@ from discord.ext import commands
 import logging
 import aiohttp
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
 
 extensions = (
     "cogs.poll", 
