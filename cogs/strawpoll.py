@@ -6,41 +6,38 @@ class StrawPoll(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    def find_title(self, message):
+        # this is the index of the first character of the title
+        first = message.find('{') + 1
+        # index of the last character of the title
+        last = message.find('}')
+        if first == 0 or last == -1:
+            # TODO: Send a message telling the use how they are using it incorrectly.
+            return "Not using the command correctly"
+        return message[first:last]
+    def find_options(self, message, options):
+        # first index of the first character of the option
+        first = message.find('[') + 1
+        # index of the last character of the title
+        last = message.find(']')
+        if (first == 0 or last == -1):
+            if len(options) < 2:
+                # TODO: Send a message telling the use how they are using it incorrectly.
+                return "Not using the command correctly"
+            else:
+                return options
+        options.append(message[first:last])
+        message = message[last+1:]
+        return self.find_options(message, options) 
+
     @commands.command(name="strawpoll")
     async def strawpoll(self, ctx):
         if not ctx.message.author.bot:
             message = ctx.message.clean_content
 
-            # gets the title of the poll
-            first = message.find("{") + 1
-            second = message.find("}")
-            title = message[first:second]
+            title = self.find_title(message)
 
-            # gets the # of options and assigns them to an array
-            newMessage = message[second:]
-            loopTime = 0
-
-            option = []
-            for options in message:
-                # get from } [option 1]
-                # if newThis == -1:
-                stillOptions = newMessage.find("[")
-                if stillOptions != -1:
-                    if loopTime == 0:
-                        first = newMessage.find("[") + 1
-
-                        second = newMessage.find("]")
-                        second1 = second + 1
-                        option.append(newMessage[first:second])
-
-                        loopTime += 1
-                    else:
-                        newMessage = newMessage[second1:]
-                        first = newMessage.find("[") + 1
-                        second = newMessage.find("]")
-                        second1 = second + 1
-                        option.append(newMessage[first:second])
-                        loopTime += 1
+            options = self.find_options(message, [])
 
             try:
                 async with self.bot.http_session.post(
@@ -48,7 +45,7 @@ class StrawPoll(commands.Cog):
                     json={
                         "poll": {
                             "title": title,
-                            "answers": option[: (len(option) - 1)],
+                            "answers": options,
                         }
                         
                     },
