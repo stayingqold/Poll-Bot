@@ -87,7 +87,7 @@ class Poll(commands.Cog):
                                     pollMessage = pollMessage + "\n\n" + self.emojiLetters[i] + " " + choice
                             i += 1
 
-                        ads = ["\n\n[Don't let eye strain ruin your day. Protect your eyes from harmful blue light using Bakery Gaming's glasses. Use code 'Poll Bot' for 20% off your order.](https://bakerygaming.store/collections/all)"]
+                        ads = ["[\n\nDon't want advertisements? Purchase Poll Bot Premium by clicking here.](https://stayingqold.github.io/poll-bot-premium-site/)", "\n\n[Don't let eye strain ruin your day. Protect your eyes from harmful blue light using Bakery Gaming's glasses. Use code 'Poll Bot' for 20% off your order.](https://bakerygaming.store/collections/all)"]
 
 
 
