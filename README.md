@@ -11,8 +11,6 @@ Create a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]'
 Create a reaction poll by typing '+poll _____’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷
 
 Create a multi reaction poll type poll: {title} [option 1] [option 2] [option 3]
-Add '+duration {hours}:{minutes}' to the message if you want the poll to end automatically (with*out* the {}). When the poll ends, the bot will send a message with a pie plot with the answers given in the channel of the poll.
-
 ## Requirements
 
 - Python 3.5.3+
