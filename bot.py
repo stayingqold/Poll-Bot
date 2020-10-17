@@ -9,8 +9,7 @@ extensions = (
     "cogs.poll", 
     "cogs.strawpoll", 
     "cogs.meta", 
-    "cogs.owner",
-    "cogs.BackgroundTasks"
+    "cogs.owner"
     )
 
 class PollBot(commands.AutoShardedBot):
