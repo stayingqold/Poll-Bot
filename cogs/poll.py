@@ -38,6 +38,30 @@ class Poll(commands.Cog):
             "\N{REGIONAL INDICATOR SYMBOL LETTER Z}"
         ]
 
+    def find_title(self, message):
+        # this is the index of the first character of the title
+        first = message.find('{') + 1
+        # index of the last character of the title
+        last = message.find('}')
+        if first == 0 or last == -1:
+            # TODO: Send a message telling the use how they are using it incorrectly.
+            return "Not using the command correctly"
+        return message[first:last]
+    def find_options(self, message, options):
+        # first index of the first character of the option
+        first = message.find('[') + 1
+        # index of the last character of the title
+        last = message.find(']')
+        if (first == 0 or last == -1):
+            if len(options) < 2:
+                # TODO: Send a message telling the use how they are using it incorrectly.
+                return "Not using the command correctly"
+            else:
+                return options
+        options.append(message[first:last])
+        message = message[last+1:]
+        return self.find_options(message, options) 
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if not message.author.bot:
@@ -48,46 +72,22 @@ class Poll(commands.Cog):
                     await message.add_reaction('👎')
                     await message.add_reaction('🤷')
                 else:
-                    first = messageContent.find("{") + 1
-                    second = messageContent.find("}")
-                    title = messageContent[first:second]
-
-                    # gets the # of options and assigns them to an array
-                    newMessage = messageContent[second:]
-                    loopTime = 0
-
-                    option = []
-                    for options in messageContent:
-                        # get from } [option 1]
-                        stillOptions = newMessage.find("[")
-                        if stillOptions != -1:
-                            if loopTime == 0:
-                                first = newMessage.find("[") + 1
-                                second = newMessage.find("]")
-                                second1 = second + 1
-                                option.append(newMessage[first:second])
-                                loopTime += 1
-                            else:
-                                newMessage = newMessage[second1:]
-                                first = newMessage.find("[") + 1
-                                second = newMessage.find("]")
-                                second1 = second + 1
-                                option.append(newMessage[first:second])
-                                loopTime += 1
+                    title = self.find_title(messageContent)
+                    options = self.find_options(messageContent, [])
 
                     try:
                         pollMessage = ""
                         i = 0
-                        for choice in option:
-                            if not option[i] == "":
-                                if len(option) > 21:
-                                    await message.channel.send("Maximum of 20 options")
+                        for choice in options:
+                            if not options[i] == "":
+                                if len(options) > 21:
+                                    await message.channel.send("Please make sure you are using the command correctly and have less than 21 options.")
                                     return
-                                elif not i == len(option) - 1:
+                                elif not i == len(options):
                                     pollMessage = pollMessage + "\n\n" + self.emojiLetters[i] + " " + choice
                             i += 1
 
-                        ads = ["\n\n[Don't let eye strain ruin your day. Protect your eyes from harmful blue light using Bakery Gaming's glasses. Use code 'Poll Bot' for 20% off your order.](https://bakerygaming.store/collections/all)"]
+                        ads = ["[\n\nDon't want advertisements? Purchase Poll Bot Premium by clicking here.](https://www.patreon.com/pollbot)", "\n\n[Don't let eye strain ruin your day. Protect your eyes from harmful blue light using Bakery Gaming's glasses. Use code 'Poll Bot' for 20% off your order.](https://bakerygaming.store/collections/all)"]
 
 
 
@@ -97,8 +97,8 @@ class Poll(commands.Cog):
                         pollMessage = await message.channel.send(embed=e)
                         i = 0
                         final_options = []  # There is a better way to do this for sure, but it also works that way
-                        for choice in option:
-                            if not i == len(option) - 1 and not option[i] == "":
+                        for choice in options:
+                            if not i == len(options) and not options[i] == "":
                                 final_options.append(choice)
                                 await pollMessage.add_reaction(self.emojiLetters[i])
                             i += 1

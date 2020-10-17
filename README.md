@@ -11,10 +11,12 @@ Create a strawpoll by typing '+strawpoll {title} [Option1] [Option2] [Option 3]'
 Create a reaction poll by typing '+poll _____’. Poll Bot will automatically add the reactions 👍, 👎, and 🤷
 
 Create a multi reaction poll type poll: {title} [option 1] [option 2] [option 3]
+
 ## Requirements
 
 - Python 3.5.3+
 - `aiohttp` library
 - `discord.py` library
+- `asyncpg` library
 
 Usually `pip` will work for these
