@@ -37,5 +37,10 @@ class PollBot(commands.AutoShardedBot):
         if not message.author.bot:
             await self.process_commands(message)
 
+    # @on_message.error
+    # async def on_message_error(self, ctx, error):
+    #     if isinstance(error, commands.CommandOnCooldown):
+    #         await ctx.send('I could not find that member...')
+
     def run(self):
         super().run(self.config["discord_token"], reconnect=True)

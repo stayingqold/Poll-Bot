@@ -2,6 +2,7 @@ import discord
 import asyncio
 from discord.ext import commands
 import random
+from discord.ext.commands.cooldowns import BucketType
 
 
 
@@ -44,7 +45,6 @@ class Poll(commands.Cog):
         # index of the last character of the title
         last = message.find('}')
         if first == 0 or last == -1:
-            # TODO: Send a message telling the use how they are using it incorrectly.
             return "Not using the command correctly"
         return message[first:last]
     def find_options(self, message, options):
@@ -54,7 +54,6 @@ class Poll(commands.Cog):
         last = message.find(']')
         if (first == 0 or last == -1):
             if len(options) < 2:
-                # TODO: Send a message telling the use how they are using it incorrectly.
                 return "Not using the command correctly"
             else:
                 return options
@@ -62,8 +61,14 @@ class Poll(commands.Cog):
         message = message[last+1:]
         return self.find_options(message, options) 
 
-    @commands.Cog.listener()
-    async def on_message(self, message):
+   
+    
+    #@commands.Cog.listener()
+    @commands.cooldown(2,60,BucketType.user) 
+    @commands.command(name="poll")
+    # Limit how often a command can be used, (num per, seconds, BucketType.default/user/member/guild/channel/role)
+    async def poll(self, ctx):
+        message = ctx.message
         if not message.author.bot:
             if message.content.startswith("+poll") or message.content.startswith("poll:") or message.content.startswith("Poll:") or message.content.startswith("+poll:") or message.content.startswith("+Poll:"):
                 messageContent = message.clean_content
@@ -106,6 +111,10 @@ class Poll(commands.Cog):
                         return "Please make sure you are using the format 'poll: {title} [Option1] [Option2] [Option 3]'"
             else:
                 return
+    @poll.error
+    async def poll_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(error)
 
 def setup(bot):
     bot.add_cog(Poll(bot))
