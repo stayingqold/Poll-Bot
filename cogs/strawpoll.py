@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord.ext.commands.cooldowns import BucketType
 
 
 class StrawPoll(commands.Cog):
@@ -31,6 +32,7 @@ class StrawPoll(commands.Cog):
         return self.find_options(message, options) 
 
     @commands.command(name="strawpoll")
+    @commands.cooldown(2,60,BucketType.user) 
     async def strawpoll(self, ctx):
         if not ctx.message.author.bot:
             message = ctx.message.clean_content
@@ -60,6 +62,9 @@ class StrawPoll(commands.Cog):
             except KeyError:
                 return "Please make sure you are using the format '+strawpoll {title} [Option1] [Option2] [Option 3]'"
 
-
+    @strawpoll.error
+    async def strawpoll_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.send(error)
 def setup(bot):
     bot.add_cog(StrawPoll(bot))
