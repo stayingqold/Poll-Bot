@@ -39,6 +39,7 @@ class Poll(commands.Cog):
             "\N{REGIONAL INDICATOR SYMBOL LETTER Z}"
         ]
 
+    # parses the title, which should be in between curly brackets ('{ title }')
     def find_title(self, message):
         # this is the index of the first character of the title
         first = message.find('{') + 1
@@ -47,6 +48,7 @@ class Poll(commands.Cog):
         if first == 0 or last == -1:
             return "Not using the command correctly"
         return message[first:last]
+    # parses the options (recursively), which should be in between square brackets ('[ option n ]')
     def find_options(self, message, options):
         # first index of the first character of the option
         first = message.find('[') + 1
