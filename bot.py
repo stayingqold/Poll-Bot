@@ -3,7 +3,7 @@ from discord.ext import commands
 import logging
 import aiohttp
 
-# logging.basicConfig(level=logging.INFO)
+#logging.basicConfig(level=logging.INFO)
 
 extensions = (
     "cogs.poll", 
@@ -20,6 +20,14 @@ class PollBot(commands.AutoShardedBot):
             status = discord.Status.online,
             activity = discord.Game(name = "+help"))
         self.config = config
+        self.shard_count = self.config["shards"]["count"]
+        shard_ids_list = []
+        shard_ids = []
+        
+        # create list of shard ids
+        for i in range(self.config["shards"]["first_shard_id"], self.config["shards"]["last_shard_id"]+1):
+            shard_ids_list.append(i)
+        self.shard_ids = tuple(shard_ids_list)
 
         self.remove_command("help")
         
