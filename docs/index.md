@@ -9,10 +9,10 @@ If you have double checked that Poll Bot has all of these permissions in the __r
 ![Poll Bot Online Indicator](poll-bot-online.png)
 
 ## How do I get rid of ads? 
-You can purchase Poll Bot Premium for $5 per month here: https://www.patreon.com/pollbot
+You can purchase Poll Bot Premium for $5 per month here: [https://www.patreon.com/pollbot](https://www.patreon.com/pollbot)
 
 ## How do I invite the bot to my server?
-You can use this link to invite Poll Bot to any server you are an admin in: https://discordapp.com/oauth2/authorize?client_id=298673420181438465&permissions=84032&scope=bot
+You can use this link to invite Poll Bot to any server you are an admin in: [https://discordapp.com/oauth2/authorize?client_id=298673420181438465&permissions=84032&scope=bot](https://discordapp.com/oauth2/authorize?client_id=298673420181438465&permissions=84032&scope=bot)
 
 ## What permissions does Poll Bot require?
 Read Messages, Send Messages, Add Reactions, Embed Links, and Read Message History.
