@@ -8,6 +8,15 @@ If you have double checked that Poll Bot has all of these permissions in the __r
 
 ![Poll Bot Online Indicator](poll-bot-online.png)
 
+## How do I create a poll?
+### Reaction Poll
+Create a reaction poll by typing +poll *your message*. Poll Bot will automatically add the reactions 👍, 👎, and 🤷‍♂️.
+
+Create a reaction poll with __multiple options__ by typing +poll {title} [Option1] [Option2] [Option3], with up to 26 options.
+
+### Strawpoll
+Create a strawpoll by typing +strawpoll {title} [Option1] [Option2] [Option 3], with up to 30 options.
+
 ## How do I get rid of ads? 
 You can purchase Poll Bot Premium for $5 per month here: [https://www.patreon.com/pollbot](https://www.patreon.com/pollbot)
 
