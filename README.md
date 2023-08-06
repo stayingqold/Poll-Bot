@@ -1,4 +1,8 @@
+## Poll Bot [ARCHIVED]
+Poll Bot stopped running in July 2022. This repository is archived and will not be updated. If you want to run your own instance of Poll Bot, you can find the source code here, though there have been many breaking changes to the Discord API and discord.py since this repository was archived, so it will take some work to get it running again. Below is the old README.md.
+
 ## Poll Bot
+
 Poll Bot is a Discord bot that lets you create strawpolls and reaction polls
 
 Add Poll Bot to your server here: https://discordapp.com/oauth2/authorize?client_id=298673420181438465&scope=bot&permissions=0
